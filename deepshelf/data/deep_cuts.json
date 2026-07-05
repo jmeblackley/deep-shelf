@@ -1,0 +1,395 @@
+{
+  "_about": "A hand-curated seed corpus of deep-cut books: works of real merit that popularity engines routinely bury. Used to augment live Open Library results and as an offline fallback. Counts are deliberately conservative; the point is the pick, not the metrics.",
+  "books": [
+    {
+      "title": "The Invention of Morel",
+      "authors": ["Adolfo Bioy Casares"],
+      "year": 1940,
+      "subjects": ["experimental fiction", "the uncanny", "islands", "memory", "science fiction", "unreliable narrator"],
+      "edition_count": 22,
+      "ratings_count": 90,
+      "ratings_average": 4.2,
+      "note": "A fugitive on a deserted island discovers the machinery of eternity. Borges called it perfect."
+    },
+    {
+      "title": "The Peregrine",
+      "authors": ["J. A. Baker"],
+      "year": 1967,
+      "subjects": ["nature writing", "birds", "ecology", "landscape", "observation", "obsession"],
+      "edition_count": 14,
+      "ratings_count": 40,
+      "ratings_average": 4.4,
+      "note": "One man follows falcons across an Essex winter until the boundary between watcher and watched dissolves."
+    },
+    {
+      "title": "The Street of Crocodiles",
+      "authors": ["Bruno Schulz"],
+      "year": 1934,
+      "subjects": ["surrealism", "the uncanny", "memory", "cities", "modernism", "fathers"],
+      "edition_count": 30,
+      "ratings_count": 120,
+      "ratings_average": 4.1,
+      "note": "A Polish shopkeeper's town mutates into myth. Schulz was shot in the street by a Gestapo officer in 1942; most of his work is lost."
+    },
+    {
+      "title": "The Tartar Steppe",
+      "authors": ["Dino Buzzati"],
+      "year": 1940,
+      "subjects": ["existentialism", "war", "waiting", "melancholy", "the absurd", "outsider"],
+      "edition_count": 28,
+      "ratings_count": 140,
+      "ratings_average": 4.2,
+      "note": "An officer spends his whole life at a remote fort awaiting an enemy that may never come."
+    },
+    {
+      "title": "Nightwood",
+      "authors": ["Djuna Barnes"],
+      "year": 1936,
+      "subjects": ["modernism", "loneliness", "the gothic", "outsider", "the body", "night"],
+      "edition_count": 26,
+      "ratings_count": 160,
+      "ratings_average": 3.9,
+      "note": "A fever-prose masterpiece of desire and ruin in interwar Paris. T. S. Eliot championed it; almost nobody reads it."
+    },
+    {
+      "title": "The Third Policeman",
+      "authors": ["Flann O'Brien"],
+      "year": 1967,
+      "subjects": ["absurdist fiction", "comedy", "the uncanny", "philosophy", "ghost stories", "satire"],
+      "edition_count": 24,
+      "ratings_count": 210,
+      "ratings_average": 4.1,
+      "note": "A murderer, a bicycle problem, and a hell shaped like rural Ireland. Rejected in his lifetime, published after his death."
+    },
+    {
+      "title": "A Voyage to Arcturus",
+      "authors": ["David Lindsay"],
+      "year": 1920,
+      "subjects": ["fantasy", "philosophy", "the unknown", "science fiction", "occult", "otherworld"],
+      "edition_count": 20,
+      "ratings_count": 70,
+      "ratings_average": 3.8,
+      "note": "A pilgrimage across an alien planet where every landscape is a moral argument. Sold 596 copies on release."
+    },
+    {
+      "title": "The Book of Disquiet",
+      "authors": ["Fernando Pessoa"],
+      "year": 1982,
+      "subjects": ["fragments", "philosophy", "melancholy", "essays", "loneliness", "cities"],
+      "edition_count": 34,
+      "ratings_count": 300,
+      "ratings_average": 4.4,
+      "note": "The diary of a Lisbon bookkeeper who never lived and never stopped noticing. Assembled from a trunk of unsorted scraps."
+    },
+    {
+      "title": "The Notebooks of Malte Laurids Brigge",
+      "authors": ["Rainer Maria Rilke"],
+      "year": 1910,
+      "subjects": ["modernism", "loneliness", "the body", "cities", "memory", "phenomenology"],
+      "edition_count": 32,
+      "ratings_count": 130,
+      "ratings_average": 4.1,
+      "note": "A young poet in Paris learns to see. The first great novel of pure attention."
+    },
+    {
+      "title": "Life A User's Manual",
+      "authors": ["Georges Perec"],
+      "year": 1978,
+      "subjects": ["encyclopedic fiction", "cities", "systems", "miscellany", "domestic fiction", "obsession"],
+      "edition_count": 24,
+      "ratings_count": 180,
+      "ratings_average": 4.3,
+      "note": "A Paris apartment building rendered room by room as an infinite puzzle. Built on a mathematical scaffold you never see."
+    },
+    {
+      "title": "Nada",
+      "authors": ["Carmen Laforet"],
+      "year": 1945,
+      "subjects": ["realism", "coming of age", "cities", "domestic fiction", "war", "outsider"],
+      "edition_count": 18,
+      "ratings_count": 95,
+      "ratings_average": 4.0,
+      "note": "A teenager arrives in postwar Barcelona to a household slowly eating itself. Written by a 23-year-old."
+    },
+    {
+      "title": "The Opposing Shore",
+      "authors": ["Julien Gracq"],
+      "year": 1951,
+      "subjects": ["waiting", "war", "melancholy", "modernism", "landscape", "the unknown"],
+      "edition_count": 12,
+      "ratings_count": 45,
+      "ratings_average": 4.0,
+      "note": "On a frontier frozen in a centuries-old cold war, a young officer is drawn toward the forbidden far shore."
+    },
+    {
+      "title": "Ferdydurke",
+      "authors": ["Witold Gombrowicz"],
+      "year": 1937,
+      "subjects": ["satire", "absurdist fiction", "comedy", "philosophy", "the body", "coming of age"],
+      "edition_count": 20,
+      "ratings_count": 85,
+      "ratings_average": 3.9,
+      "note": "A grown man is dragged back to school and infantilised in a farce about the tyranny of form."
+    },
+    {
+      "title": "Petersburg",
+      "authors": ["Andrei Bely"],
+      "year": 1913,
+      "subjects": ["modernism", "cities", "the uncanny", "revolution", "satire", "the gothic"],
+      "edition_count": 22,
+      "ratings_count": 110,
+      "ratings_average": 3.9,
+      "note": "A ticking bomb, a father, a son, and a city dissolving into shadow. Nabokov ranked it among the century's four greatest novels."
+    },
+    {
+      "title": "Concrete",
+      "authors": ["Thomas Bernhard"],
+      "year": 1982,
+      "subjects": ["existentialism", "melancholy", "the body", "obsession", "outsider", "monograph"],
+      "edition_count": 16,
+      "ratings_count": 130,
+      "ratings_average": 4.1,
+      "note": "A single unbroken paragraph of a man failing to begin the book he has meant to write for a decade. Savage and funny."
+    },
+    {
+      "title": "The Man Who Loved Children",
+      "authors": ["Christina Stead"],
+      "year": 1940,
+      "subjects": ["domestic fiction", "family", "realism", "the body", "trauma", "satire"],
+      "edition_count": 18,
+      "ratings_count": 160,
+      "ratings_average": 3.8,
+      "note": "The most exact and terrifying portrait of a marriage in the language. Went out of print for twenty years."
+    },
+    {
+      "title": "On Growth and Form",
+      "authors": ["D'Arcy Wentworth Thompson"],
+      "year": 1917,
+      "subjects": ["science", "mathematics", "natural history", "biology", "systems", "craft"],
+      "edition_count": 30,
+      "ratings_count": 90,
+      "ratings_average": 4.3,
+      "note": "Why living things take the shapes they do, argued through geometry. A century of biologists have kept it on the desk."
+    },
+    {
+      "title": "The Immense Journey",
+      "authors": ["Loren Eiseley"],
+      "year": 1957,
+      "subjects": ["nature writing", "science", "essays", "evolution", "geology", "phenomenology"],
+      "edition_count": 20,
+      "ratings_count": 110,
+      "ratings_average": 4.4,
+      "note": "An anthropologist writes about deep time the way poets write about love. The prose alone is worth it."
+    },
+    {
+      "title": "Tristes Tropiques",
+      "authors": ["Claude Levi-Strauss"],
+      "year": 1955,
+      "subjects": ["anthropology", "travel", "essays", "philosophy", "memory", "exploration"],
+      "edition_count": 24,
+      "ratings_count": 130,
+      "ratings_average": 4.1,
+      "note": "The great anthropologist's anti-travel book: 'I hate travelling and explorers,' it opens, then it breaks your heart."
+    },
+    {
+      "title": "The Poetics of Space",
+      "authors": ["Gaston Bachelard"],
+      "year": 1958,
+      "subjects": ["philosophy", "architecture", "phenomenology", "memory", "the ordinary", "essays"],
+      "edition_count": 22,
+      "ratings_count": 140,
+      "ratings_average": 4.2,
+      "note": "A philosopher on drawers, corners, nests, and attics — why intimate spaces shape the soul."
+    },
+    {
+      "title": "The Gift",
+      "authors": ["Marcel Mauss"],
+      "year": 1925,
+      "subjects": ["anthropology", "systems", "economics", "history", "essays", "society"],
+      "edition_count": 26,
+      "ratings_count": 70,
+      "ratings_average": 4.0,
+      "note": "The little book that revealed how gifts bind and obligate across every human culture. Foundational and short."
+    },
+    {
+      "title": "Hydriotaphia, Urn Burial",
+      "authors": ["Thomas Browne"],
+      "year": 1658,
+      "subjects": ["essays", "antiquity", "death", "philosophy", "aphorisms", "memory"],
+      "edition_count": 16,
+      "ratings_count": 30,
+      "ratings_average": 4.1,
+      "note": "Prompted by some unearthed funeral urns, the finest prose meditation on oblivion in English."
+    },
+    {
+      "title": "The Anatomy of Melancholy",
+      "authors": ["Robert Burton"],
+      "year": 1621,
+      "subjects": ["essays", "philosophy", "melancholy", "miscellany", "medicine", "encyclopedic fiction"],
+      "edition_count": 28,
+      "ratings_count": 60,
+      "ratings_average": 4.2,
+      "note": "A 17th-century doctor's sprawling, digressive, inexhaustible encyclopedia of human sadness. You do not finish it; you live in it."
+    },
+    {
+      "title": "The Death of Virgil",
+      "authors": ["Hermann Broch"],
+      "year": 1945,
+      "subjects": ["modernism", "death", "antiquity", "philosophy", "the body", "melancholy"],
+      "edition_count": 14,
+      "ratings_count": 55,
+      "ratings_average": 3.8,
+      "note": "The poet's last eighteen hours, told in vast unspooling sentences. One of the hardest, most beautiful books ever written."
+    },
+    {
+      "title": "The Other Side",
+      "authors": ["Alfred Kubin"],
+      "year": 1908,
+      "subjects": ["fantasy", "the uncanny", "surrealism", "the gothic", "dreams", "otherworld"],
+      "edition_count": 12,
+      "ratings_count": 40,
+      "ratings_average": 3.9,
+      "note": "An artist is invited to a dream-kingdom that is quietly rotting. Predates and outstrips much later weird fiction."
+    },
+    {
+      "title": "Malina",
+      "authors": ["Ingeborg Bachmann"],
+      "year": 1971,
+      "subjects": ["experimental fiction", "the body", "trauma", "modernism", "loneliness", "psychological fiction"],
+      "edition_count": 16,
+      "ratings_count": 100,
+      "ratings_average": 4.0,
+      "note": "A woman split between two men and dissolving into fire and archive. Fierce, fractured, unforgettable."
+    },
+    {
+      "title": "The Doll",
+      "authors": ["Boleslaw Prus"],
+      "year": 1890,
+      "subjects": ["realism", "cities", "love", "society", "history", "domestic fiction"],
+      "edition_count": 18,
+      "ratings_count": 75,
+      "ratings_average": 4.2,
+      "note": "A merchant's hopeless love, and a whole vanished Warsaw around it. Poland's great 19th-century novel, barely read in English."
+    },
+    {
+      "title": "Roadside Picnic",
+      "authors": ["Arkady Strugatsky", "Boris Strugatsky"],
+      "year": 1972,
+      "subjects": ["science fiction", "the unknown", "outsider", "the uncanny", "exploration", "systems"],
+      "edition_count": 30,
+      "ratings_count": 400,
+      "ratings_average": 4.2,
+      "note": "Aliens visited, left junk, and never noticed us — like litter after a picnic. The source of the film 'Stalker'."
+    },
+    {
+      "title": "A Field Guide to Getting Lost",
+      "authors": ["Rebecca Solnit"],
+      "year": 2005,
+      "subjects": ["essays", "memory", "landscape", "phenomenology", "the unknown", "travel"],
+      "edition_count": 20,
+      "ratings_count": 380,
+      "ratings_average": 4.1,
+      "note": "Essays braiding maps, blue distance, and the uses of being lost. On the newer side, but built to last."
+    },
+    {
+      "title": "The Rings of Saturn",
+      "authors": ["W. G. Sebald"],
+      "year": 1995,
+      "subjects": ["essays", "memory", "landscape", "history", "melancholy", "travel"],
+      "edition_count": 34,
+      "ratings_count": 520,
+      "ratings_average": 4.2,
+      "note": "A walk along the English coast that keeps falling through into silk-worms, herring, and the wreckage of history."
+    },
+    {
+      "title": "Arctic Dreams",
+      "authors": ["Barry Lopez"],
+      "year": 1986,
+      "subjects": ["nature writing", "landscape", "exploration", "ice", "science", "phenomenology"],
+      "edition_count": 22,
+      "ratings_count": 240,
+      "ratings_average": 4.2,
+      "note": "The definitive book on how the far north acts on the human imagination. Patient as a glacier."
+    },
+    {
+      "title": "The Sleepwalkers",
+      "authors": ["Arthur Koestler"],
+      "year": 1959,
+      "subjects": ["history", "science", "astronomy", "philosophy", "biography", "systems"],
+      "edition_count": 18,
+      "ratings_count": 120,
+      "ratings_average": 4.2,
+      "note": "How Copernicus, Kepler, and Galileo stumbled backward into the modern cosmos. History of science as tragicomedy."
+    },
+    {
+      "title": "Pilgrim at Tinker Creek",
+      "authors": ["Annie Dillard"],
+      "year": 1974,
+      "subjects": ["nature writing", "essays", "phenomenology", "landscape", "religion", "observation"],
+      "edition_count": 24,
+      "ratings_count": 460,
+      "ratings_average": 4.0,
+      "note": "A year of ferocious attention at a Virginia creek. Terror and grace in equal, unbearable measure."
+    },
+    {
+      "title": "The Spell of the Sensuous",
+      "authors": ["David Abram"],
+      "year": 1996,
+      "subjects": ["philosophy", "ecology", "phenomenology", "language", "anthropology", "nature writing"],
+      "edition_count": 16,
+      "ratings_count": 190,
+      "ratings_average": 4.2,
+      "note": "How alphabets may have severed us from the living land, argued by a philosopher who was also a sleight-of-hand magician."
+    },
+    {
+      "title": "The Man Without Qualities",
+      "authors": ["Robert Musil"],
+      "year": 1930,
+      "subjects": ["modernism", "philosophy", "satire", "systems", "essays", "encyclopedic fiction"],
+      "edition_count": 26,
+      "ratings_count": 180,
+      "ratings_average": 4.2,
+      "note": "An unfinished masterpiece: a whole doomed empire thinking out loud on the eve of the First World War."
+    },
+    {
+      "title": "We",
+      "authors": ["Yevgeny Zamyatin"],
+      "year": 1924,
+      "subjects": ["science fiction", "satire", "systems", "revolution", "dystopia", "modernism"],
+      "edition_count": 40,
+      "ratings_count": 600,
+      "ratings_average": 4.0,
+      "note": "The dystopia that taught Orwell and Huxley how. Written first, banned longest, read least."
+    },
+    {
+      "title": "The Blue Flower",
+      "authors": ["Penelope Fitzgerald"],
+      "year": 1995,
+      "subjects": ["historical fiction", "love", "philosophy", "domestic fiction", "biography", "melancholy"],
+      "edition_count": 20,
+      "ratings_count": 300,
+      "ratings_average": 3.9,
+      "note": "The young poet Novalis falls in love with a plain twelve-year-old girl. Somehow luminous, wise, and weightless."
+    },
+    {
+      "title": "Cosmicomics",
+      "authors": ["Italo Calvino"],
+      "year": 1965,
+      "subjects": ["science fiction", "fantasy", "comedy", "science", "fables", "the unknown"],
+      "edition_count": 34,
+      "ratings_count": 480,
+      "ratings_average": 4.1,
+      "note": "Bedtime stories told by an immortal who was there before the moon left the earth. Playful cosmology at its finest."
+    },
+    {
+      "title": "Journey to the End of the Night",
+      "authors": ["Louis-Ferdinand Celine"],
+      "year": 1932,
+      "subjects": ["existentialism", "war", "satire", "outsider", "cities", "the body"],
+      "edition_count": 28,
+      "ratings_count": 420,
+      "ratings_average": 4.1,
+      "note": "A furious, foul, hilarious tour through war, colony, and slum. Reinvented the sound of the modern sentence."
+    }
+  ]
+}
