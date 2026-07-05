@@ -1,0 +1,650 @@
+<title>Deepshelf</title>
+<style>
+  /* ============================ tokens ============================ */
+  :root{
+    --paper:#e5e6e0; --surface:#edeee8; --recess:#dbdcd3;
+    --ink:#1f221c; --ink-soft:#494c42; --ink-faint:#73766a;
+    --rule:rgba(31,34,28,.16); --rule-soft:rgba(31,34,28,.09);
+    --accent:#14514b; --accent-ink:#0e3b36; --accent-soft:rgba(20,81,75,.10);
+    --stamp:#9c3b2c; --focus:#14514b;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:44rem;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#141611; --surface:#1c1e17; --recess:#0f110b;
+      --ink:#e6e5d8; --ink-soft:#b2b3a6; --ink-faint:#80816f;
+      --rule:rgba(230,229,216,.16); --rule-soft:rgba(230,229,216,.08);
+      --accent:#6cbdad; --accent-ink:#8fd0c2; --accent-soft:rgba(108,189,173,.14);
+      --stamp:#d67c65; --focus:#6cbdad;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#e5e6e0; --surface:#edeee8; --recess:#dbdcd3;
+    --ink:#1f221c; --ink-soft:#494c42; --ink-faint:#73766a;
+    --rule:rgba(31,34,28,.16); --rule-soft:rgba(31,34,28,.09);
+    --accent:#14514b; --accent-ink:#0e3b36; --accent-soft:rgba(20,81,75,.10);
+    --stamp:#9c3b2c; --focus:#14514b;
+  }
+  :root[data-theme="dark"]{
+    --paper:#141611; --surface:#1c1e17; --recess:#0f110b;
+    --ink:#e6e5d8; --ink-soft:#b2b3a6; --ink-faint:#80816f;
+    --rule:rgba(230,229,216,.16); --rule-soft:rgba(230,229,216,.08);
+    --accent:#6cbdad; --accent-ink:#8fd0c2; --accent-soft:rgba(108,189,173,.14);
+    --stamp:#d67c65; --focus:#6cbdad;
+  }
+
+  /* ============================ base ============================ */
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:clamp(16px,1.6vw,18px); line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    min-height:100vh;
+  }
+  /* faint laid-paper grain — very low contrast, both themes */
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+    background-image:repeating-linear-gradient(0deg,transparent 0 3px,var(--rule-soft) 3px 4px);
+    mix-blend-mode:normal;
+  }
+  .wrap{position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:clamp(1.5rem,5vw,3.5rem) 1.25rem 5rem}
+  a{color:inherit}
+  ::selection{background:var(--accent-soft)}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:3px; border-radius:1px}
+  button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+
+  .eyebrow{font-family:var(--sans); font-size:.7rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-faint); font-weight:600}
+  .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+
+  /* masthead */
+  .mast{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:2.5rem}
+  .logo{font-family:var(--serif); font-weight:600; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:baseline; gap:.55rem}
+  .logo .colophon{font-family:var(--mono); font-size:.62rem; letter-spacing:.18em; color:var(--ink-faint); text-transform:uppercase}
+  .theme-btn{font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--rule); padding:.4rem .6rem; border-radius:2px; transition:color .2s,border-color .2s}
+  .theme-btn:hover{color:var(--ink); border-color:var(--ink-faint)}
+
+  /* view transitions */
+  .view{display:none; animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+  .view.on{display:block}
+  @keyframes rise{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion:reduce){ .view{animation:none} *{scroll-behavior:auto!important} }
+
+  /* ============================ intro ============================ */
+  .hero{padding:2rem 0 1rem}
+  .hero h1{font-size:clamp(2.6rem,9vw,4.4rem); line-height:1.02; font-weight:600; letter-spacing:-.015em; margin:.2rem 0 0; text-wrap:balance}
+  .hero .sub{font-size:clamp(1.1rem,2.4vw,1.32rem); color:var(--ink-soft); max-width:34ch; margin:1.4rem 0 0; text-wrap:pretty}
+  .hero .rule{height:1px; background:var(--rule); margin:2.2rem 0}
+  .principles{display:grid; gap:1.1rem; margin:0 0 2.4rem}
+  .principle{display:grid; grid-template-columns:1.6rem 1fr; gap:.9rem; align-items:start}
+  .principle .n{font-family:var(--mono); font-size:.72rem; color:var(--accent); padding-top:.25rem; letter-spacing:.05em}
+  .principle p{margin:0; font-size:1.02rem; color:var(--ink-soft)}
+  .principle b{color:var(--ink); font-weight:600}
+
+  .begin{display:inline-flex; align-items:center; gap:.7rem; font-family:var(--sans); font-weight:600; font-size:.82rem; letter-spacing:.14em; text-transform:uppercase; color:var(--paper); background:var(--accent); padding:.9rem 1.5rem; border-radius:2px; transition:transform .18s,background .2s}
+  .begin:hover{background:var(--accent-ink); transform:translateY(-1px)}
+  .begin .arr{font-family:var(--serif); font-size:1.1rem; text-transform:none; letter-spacing:0}
+
+  /* ============================ interview ============================ */
+  .card-head{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:1.6rem}
+  .catalog-no{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--ink-faint); text-transform:uppercase}
+  .progress{display:flex; gap:.4rem; align-items:center}
+  .pip{width:8px; height:8px; border:1px solid var(--ink-faint); border-radius:50%; transition:background .3s,border-color .3s}
+  .pip.done{background:var(--accent); border-color:var(--accent)}
+  .pip.here{border-color:var(--accent); box-shadow:inset 0 0 0 2px var(--paper)}
+
+  .q{font-family:var(--serif); font-size:clamp(1.55rem,4.4vw,2.3rem); line-height:1.14; font-weight:600; letter-spacing:-.01em; margin:0 0 1.7rem; text-wrap:balance; max-width:22ch}
+  .options{display:grid; gap:.55rem; margin-bottom:2rem}
+  .opt{display:grid; grid-template-columns:1.9rem 1fr; align-items:baseline; gap:.5rem; text-align:left; width:100%;
+       padding:.95rem 1rem; border:1px solid var(--rule); border-radius:2px; background:var(--surface);
+       transition:border-color .18s,background .18s,transform .12s}
+  .opt:hover{border-color:var(--ink-faint); transform:translateX(2px)}
+  .opt .mk{font-family:var(--mono); font-size:.82rem; color:var(--ink-faint); transition:color .18s}
+  .opt .lbl{font-size:1.08rem; line-height:1.35}
+  .opt.sel{border-color:var(--accent); background:var(--accent-soft)}
+  .opt.sel .mk{color:var(--accent)}
+  .opt.sel .mk::after{content:"×"} /* stamped mark on selection */
+  .opt .mk::after{content:""}
+
+  .freeform input{width:100%; font-family:var(--serif); font-size:1.2rem; color:var(--ink); background:transparent;
+    border:none; border-bottom:1.5px solid var(--rule); padding:.6rem .1rem; transition:border-color .2s}
+  .freeform input::placeholder{color:var(--ink-faint)}
+  .freeform input:focus{outline:none; border-color:var(--accent)}
+  .freeform .hint{font-family:var(--sans); font-size:.78rem; color:var(--ink-faint); margin-top:.7rem}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; margin-top:2rem}
+  .link-btn{font-family:var(--sans); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); padding:.5rem 0; transition:color .18s}
+  .link-btn:hover{color:var(--ink)}
+  .next{font-family:var(--sans); font-weight:600; font-size:.8rem; letter-spacing:.13em; text-transform:uppercase; color:var(--paper); background:var(--accent); padding:.75rem 1.3rem; border-radius:2px; transition:background .2s,opacity .2s}
+  .next:hover{background:var(--accent-ink)}
+  .next[disabled]{opacity:.35; cursor:not-allowed}
+
+  /* ============================ synthesis ============================ */
+  .synth{text-align:left; padding:2rem 0}
+  .synth .eyebrow{margin-bottom:1.4rem}
+  .synth .read{font-size:clamp(1.5rem,4vw,2.15rem); line-height:1.25; font-weight:600; letter-spacing:-.01em; text-wrap:balance}
+  .synth .thread{color:var(--accent); font-style:italic}
+  .synth .stamp-line{margin-top:2rem; display:flex; flex-wrap:wrap; gap:.5rem}
+  .tag{font-family:var(--sans); font-size:.74rem; letter-spacing:.06em; color:var(--ink-soft); border:1px solid var(--rule); padding:.32rem .6rem; border-radius:2px; background:var(--surface)}
+  .synth .go{margin-top:2.6rem}
+
+  /* ============================ results ============================ */
+  .results-head{margin-bottom:.4rem}
+  .results-head h2{font-size:clamp(1.7rem,4vw,2.3rem); font-weight:600; letter-spacing:-.01em; margin:.3rem 0 0; text-wrap:balance}
+  .results-head .summary{font-size:1rem; color:var(--ink-soft); margin:.8rem 0 0; max-width:52ch}
+  .emergent-note{font-size:.98rem; color:var(--ink-soft); margin:.6rem 0 0; font-style:italic}
+  .emergent-note em{color:var(--accent); font-style:italic}
+
+  /* controls */
+  .controls{display:flex; flex-wrap:wrap; gap:1.4rem 2rem; align-items:flex-end; margin:1.8rem 0 .5rem; padding:1.2rem 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule)}
+  .ctrl{display:flex; flex-direction:column; gap:.5rem}
+  .ctrl > .eyebrow{font-size:.66rem}
+  .seg{display:inline-flex; border:1px solid var(--rule); border-radius:2px; overflow:hidden}
+  .seg button{font-family:var(--sans); font-size:.78rem; padding:.4rem .7rem; color:var(--ink-soft); border-right:1px solid var(--rule); transition:background .18s,color .18s}
+  .seg button:last-child{border-right:none}
+  .seg button.on{background:var(--accent); color:var(--paper)}
+  .ctrl input[type=range]{width:11rem; accent-color:var(--accent)}
+  .adv-val{font-family:var(--mono); font-size:.72rem; color:var(--ink-faint)}
+  .restart{margin-left:auto; font-family:var(--sans); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--rule); padding:.5rem .8rem; border-radius:2px; transition:color .18s,border-color .18s}
+  .restart:hover{color:var(--ink); border-color:var(--ink-faint)}
+
+  .shelf{margin-top:.5rem}
+  .entry{display:grid; grid-template-columns:2.4rem 1fr; gap:1rem; padding:1.7rem 0; border-bottom:1px solid var(--rule)}
+  .entry .idx{font-family:var(--mono); font-size:.86rem; color:var(--ink-faint); padding-top:.35rem; font-variant-numeric:tabular-nums}
+  .entry .body{min-width:0}
+  .entry .title{font-size:clamp(1.3rem,2.7vw,1.6rem); font-weight:600; line-height:1.16; letter-spacing:-.005em; margin:0; text-wrap:balance}
+  .entry .title .yr{color:var(--ink-faint); font-weight:400; font-size:.85em}
+  .entry .byline{font-family:var(--sans); font-size:.86rem; color:var(--ink-soft); margin:.35rem 0 0; letter-spacing:.01em}
+  .entry .note{font-style:italic; color:var(--ink-soft); margin:.7rem 0 0; font-size:1rem; max-width:56ch; text-wrap:pretty}
+  .badges{display:flex; flex-wrap:wrap; gap:.4rem; margin:.8rem 0 0}
+  .badge{font-family:var(--sans); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--rule); padding:.24rem .5rem; border-radius:2px}
+  .badge.curated{color:var(--accent); border-color:var(--accent); background:var(--accent-soft)}
+  .badge.wild{color:var(--stamp); border-color:var(--stamp)}
+  .badge.wild::before{content:"✦ "; }
+  .badge.free{color:var(--ink); }
+
+  /* considered instrument meters (monochrome — read as instrument, not score) */
+  .meters{display:flex; flex-wrap:wrap; gap:1.4rem; margin:1rem 0 0}
+  .meter{display:flex; align-items:center; gap:.6rem}
+  .meter .ml{font-family:var(--sans); font-size:.66rem; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); width:5.2rem; text-align:right}
+  .meter .track{position:relative; width:6.2rem; height:12px}
+  .meter .track::before{content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:var(--rule); transform:translateY(-.5px)}
+  .meter .tick{position:absolute; top:50%; width:1px; height:5px; background:var(--rule); transform:translateY(-2.5px)}
+  .meter .dot{position:absolute; top:50%; width:7px; height:7px; border-radius:50%; background:var(--ink-soft); transform:translate(-3.5px,-3.5px)}
+  .meter .mv{font-family:var(--mono); font-size:.68rem; color:var(--ink-faint); white-space:nowrap}
+
+  .links{display:flex; flex-wrap:wrap; gap:1.1rem; margin:1rem 0 0}
+  .links a{font-family:var(--sans); font-size:.8rem; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent); padding-bottom:1px; transition:color .18s,border-color .18s}
+  .links a:hover{color:var(--accent)}
+  .links a .ext{color:var(--ink-faint); font-size:.7em}
+
+  .footnote{margin-top:2.6rem; font-family:var(--sans); font-size:.78rem; color:var(--ink-faint); line-height:1.6; border-top:1px solid var(--rule); padding-top:1.4rem}
+  .footnote code{font-family:var(--mono); font-size:.9em; color:var(--ink-soft)}
+
+  /* ============================ mobile ============================ */
+  @media (max-width:600px){
+    .mast{margin-bottom:2rem}
+    .logo .colophon{display:none}
+    .hero{padding:1rem 0 .5rem}
+    .hero .sub{max-width:none}
+    .principle p{font-size:1rem}
+    .q{max-width:none}
+    .opt{grid-template-columns:1.6rem 1fr; padding:.9rem .85rem}
+    .opt .lbl{font-size:1.04rem}
+    /* controls stack full-width and stay thumb-friendly */
+    .controls{gap:1.15rem; align-items:stretch}
+    .ctrl{width:100%}
+    .seg{width:100%}
+    .seg button{flex:1; text-align:center; padding:.6rem .4rem}
+    .ctrl input[type=range]{width:100%; height:1.6rem}
+    .restart{margin-left:0; width:100%; text-align:center; padding:.7rem}
+    /* results entries: tighter gutter, meters give the year room */
+    .entry{grid-template-columns:1.6rem 1fr; gap:.7rem; padding:1.5rem 0}
+    .entry .idx{padding-top:.3rem; font-size:.8rem}
+    .meters{gap:.7rem 1.2rem}
+    .meter{gap:.5rem}
+    .meter .ml{width:4.6rem}
+    .links{gap:.9rem 1.1rem}
+    .begin{width:100%; justify-content:center}
+    .nav{gap:1rem}
+    .nav .next{flex:1; text-align:center}
+  }
+  @media (max-width:380px){
+    .meter .ml{width:100%; text-align:left}
+    .meter{flex-wrap:wrap}
+  }
+</style>
+
+<div class="wrap">
+  <div class="mast">
+    <div class="logo">Deepshelf <span class="colophon">est. from open stacks</span></div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle light or dark">Dark</button>
+  </div>
+
+  <!-- INTRO -->
+  <section class="view on" id="v-intro">
+    <div class="hero">
+      <div class="eyebrow">A reader's advisory</div>
+      <h1>Books from the deep shelves.</h1>
+      <p class="sub">Not the front table. A short, oblique interview — then a
+        shelf of considered recommendations drawn from open libraries and a
+        curator's deep cuts.</p>
+      <div class="rule"></div>
+      <div class="principles">
+        <div class="principle"><span class="n">01</span><p><b>Popularity is considered, never held against a book.</b> It's shown, not subtracted — you decide whether to lean toward the well-loved or the little-known.</p></div>
+        <div class="principle"><span class="n">02</span><p><b>The questions are sideways on purpose.</b> We read taste between your answers, not from a genre checkbox.</p></div>
+        <div class="principle"><span class="n">03</span><p><b>Serendipity means relevant <i>and</i> unexpected.</b> A lateral fit, marked as a wildcard — never noise.</p></div>
+      </div>
+      <button class="begin" id="beginBtn">Begin the interview <span class="arr">→</span></button>
+    </div>
+  </section>
+
+  <!-- INTERVIEW -->
+  <section class="view" id="v-interview">
+    <div class="card-head">
+      <span class="catalog-no" id="catNo">CARD I</span>
+      <div class="progress" id="progress"></div>
+    </div>
+    <h2 class="q" id="qText"></h2>
+    <div id="qBody"></div>
+    <div class="nav">
+      <button class="link-btn" id="backBtn">← Back</button>
+      <button class="next" id="nextBtn">Continue</button>
+    </div>
+  </section>
+
+  <!-- SYNTHESIS -->
+  <section class="view" id="v-synth">
+    <div class="synth">
+      <div class="eyebrow">Between your answers, I read—</div>
+      <div class="read" id="synthRead"></div>
+      <div class="stamp-line" id="synthTags"></div>
+      <div class="go"><button class="begin" id="toResults">See the shelf <span class="arr">→</span></button></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="view" id="v-results">
+    <div class="results-head">
+      <div class="eyebrow">Your shelf</div>
+      <h2 id="resTitle">Eight to take down</h2>
+      <p class="summary" id="resSummary"></p>
+      <p class="emergent-note" id="resEmergent"></p>
+    </div>
+    <div class="controls">
+      <div class="ctrl">
+        <span class="eyebrow">Familiarity</span>
+        <div class="seg" id="segLean">
+          <button data-v="-0.6">Little-known</button>
+          <button data-v="0" class="on">Balanced</button>
+          <button data-v="0.6">Well-loved</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="eyebrow">Era</span>
+        <div class="seg" id="segEra">
+          <button data-v="-0.6">Older</button>
+          <button data-v="0" class="on">Any</button>
+          <button data-v="0.6">Newer</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="eyebrow">Serendipity <span class="adv-val" id="advVal"></span></span>
+        <input type="range" id="advRange" min="0" max="100" step="5">
+      </div>
+      <button class="restart" id="restartBtn">Start over</button>
+    </div>
+    <div class="shelf" id="shelf"></div>
+    <p class="footnote" id="footnote"></p>
+  </section>
+</div>
+
+<script>
+const CORPUS = [{"t": "The Invention of Morel","a": "Adolfo Bioy Casares","y": 1940,"s": ["experimental fiction","the uncanny","islands","memory","science fiction","unreliable narrator"],"n": "A fugitive on a deserted island discovers the machinery of eternity. Borges called it perfect.","ed": 22,"rc": 90,"ra": 4.2},{"t": "The Peregrine","a": "J. A. Baker","y": 1967,"s": ["nature writing","birds","ecology","landscape","observation","obsession"],"n": "One man follows falcons across an Essex winter until the boundary between watcher and watched dissolves.","ed": 14,"rc": 40,"ra": 4.4},{"t": "The Street of Crocodiles","a": "Bruno Schulz","y": 1934,"s": ["surrealism","the uncanny","memory","cities","modernism","fathers"],"n": "A Polish shopkeeper's town mutates into myth. Schulz was shot in the street by a Gestapo officer in 1942; most of his work is lost.","ed": 30,"rc": 120,"ra": 4.1},{"t": "The Tartar Steppe","a": "Dino Buzzati","y": 1940,"s": ["existentialism","war","waiting","melancholy","the absurd","outsider"],"n": "An officer spends his whole life at a remote fort awaiting an enemy that may never come.","ed": 28,"rc": 140,"ra": 4.2},{"t": "Nightwood","a": "Djuna Barnes","y": 1936,"s": ["modernism","loneliness","the gothic","outsider","the body","night"],"n": "A fever-prose masterpiece of desire and ruin in interwar Paris. T. S. Eliot championed it; almost nobody reads it.","ed": 26,"rc": 160,"ra": 3.9},{"t": "The Third Policeman","a": "Flann O'Brien","y": 1967,"s": ["absurdist fiction","comedy","the uncanny","philosophy","ghost stories","satire"],"n": "A murderer, a bicycle problem, and a hell shaped like rural Ireland. Rejected in his lifetime, published after his death.","ed": 24,"rc": 210,"ra": 4.1},{"t": "A Voyage to Arcturus","a": "David Lindsay","y": 1920,"s": ["fantasy","philosophy","the unknown","science fiction","occult","otherworld"],"n": "A pilgrimage across an alien planet where every landscape is a moral argument. Sold 596 copies on release.","ed": 20,"rc": 70,"ra": 3.8},{"t": "The Book of Disquiet","a": "Fernando Pessoa","y": 1982,"s": ["fragments","philosophy","melancholy","essays","loneliness","cities"],"n": "The diary of a Lisbon bookkeeper who never lived and never stopped noticing. Assembled from a trunk of unsorted scraps.","ed": 34,"rc": 300,"ra": 4.4},{"t": "The Notebooks of Malte Laurids Brigge","a": "Rainer Maria Rilke","y": 1910,"s": ["modernism","loneliness","the body","cities","memory","phenomenology"],"n": "A young poet in Paris learns to see. The first great novel of pure attention.","ed": 32,"rc": 130,"ra": 4.1},{"t": "Life A User's Manual","a": "Georges Perec","y": 1978,"s": ["encyclopedic fiction","cities","systems","miscellany","domestic fiction","obsession"],"n": "A Paris apartment building rendered room by room as an infinite puzzle. Built on a mathematical scaffold you never see.","ed": 24,"rc": 180,"ra": 4.3},{"t": "Nada","a": "Carmen Laforet","y": 1945,"s": ["realism","coming of age","cities","domestic fiction","war","outsider"],"n": "A teenager arrives in postwar Barcelona to a household slowly eating itself. Written by a 23-year-old.","ed": 18,"rc": 95,"ra": 4.0},{"t": "The Opposing Shore","a": "Julien Gracq","y": 1951,"s": ["waiting","war","melancholy","modernism","landscape","the unknown"],"n": "On a frontier frozen in a centuries-old cold war, a young officer is drawn toward the forbidden far shore.","ed": 12,"rc": 45,"ra": 4.0},{"t": "Ferdydurke","a": "Witold Gombrowicz","y": 1937,"s": ["satire","absurdist fiction","comedy","philosophy","the body","coming of age"],"n": "A grown man is dragged back to school and infantilised in a farce about the tyranny of form.","ed": 20,"rc": 85,"ra": 3.9},{"t": "Petersburg","a": "Andrei Bely","y": 1913,"s": ["modernism","cities","the uncanny","revolution","satire","the gothic"],"n": "A ticking bomb, a father, a son, and a city dissolving into shadow. Nabokov ranked it among the century's four greatest novels.","ed": 22,"rc": 110,"ra": 3.9},{"t": "Concrete","a": "Thomas Bernhard","y": 1982,"s": ["existentialism","melancholy","the body","obsession","outsider","monograph"],"n": "A single unbroken paragraph of a man failing to begin the book he has meant to write for a decade. Savage and funny.","ed": 16,"rc": 130,"ra": 4.1},{"t": "The Man Who Loved Children","a": "Christina Stead","y": 1940,"s": ["domestic fiction","family","realism","the body","trauma","satire"],"n": "The most exact and terrifying portrait of a marriage in the language. Went out of print for twenty years.","ed": 18,"rc": 160,"ra": 3.8},{"t": "On Growth and Form","a": "D'Arcy Wentworth Thompson","y": 1917,"s": ["science","mathematics","natural history","biology","systems","craft"],"n": "Why living things take the shapes they do, argued through geometry. A century of biologists have kept it on the desk.","ed": 30,"rc": 90,"ra": 4.3},{"t": "The Immense Journey","a": "Loren Eiseley","y": 1957,"s": ["nature writing","science","essays","evolution","geology","phenomenology"],"n": "An anthropologist writes about deep time the way poets write about love. The prose alone is worth it.","ed": 20,"rc": 110,"ra": 4.4},{"t": "Tristes Tropiques","a": "Claude Levi-Strauss","y": 1955,"s": ["anthropology","travel","essays","philosophy","memory","exploration"],"n": "The great anthropologist's anti-travel book: 'I hate travelling and explorers,' it opens, then it breaks your heart.","ed": 24,"rc": 130,"ra": 4.1},{"t": "The Poetics of Space","a": "Gaston Bachelard","y": 1958,"s": ["philosophy","architecture","phenomenology","memory","the ordinary","essays"],"n": "A philosopher on drawers, corners, nests, and attics — why intimate spaces shape the soul.","ed": 22,"rc": 140,"ra": 4.2},{"t": "The Gift","a": "Marcel Mauss","y": 1925,"s": ["anthropology","systems","economics","history","essays","society"],"n": "The little book that revealed how gifts bind and obligate across every human culture. Foundational and short.","ed": 26,"rc": 70,"ra": 4.0},{"t": "Hydriotaphia, Urn Burial","a": "Thomas Browne","y": 1658,"s": ["essays","antiquity","death","philosophy","aphorisms","memory"],"n": "Prompted by some unearthed funeral urns, the finest prose meditation on oblivion in English.","ed": 16,"rc": 30,"ra": 4.1},{"t": "The Anatomy of Melancholy","a": "Robert Burton","y": 1621,"s": ["essays","philosophy","melancholy","miscellany","medicine","encyclopedic fiction"],"n": "A 17th-century doctor's sprawling, digressive, inexhaustible encyclopedia of human sadness. You do not finish it; you live in it.","ed": 28,"rc": 60,"ra": 4.2},{"t": "The Death of Virgil","a": "Hermann Broch","y": 1945,"s": ["modernism","death","antiquity","philosophy","the body","melancholy"],"n": "The poet's last eighteen hours, told in vast unspooling sentences. One of the hardest, most beautiful books ever written.","ed": 14,"rc": 55,"ra": 3.8},{"t": "The Other Side","a": "Alfred Kubin","y": 1908,"s": ["fantasy","the uncanny","surrealism","the gothic","dreams","otherworld"],"n": "An artist is invited to a dream-kingdom that is quietly rotting. Predates and outstrips much later weird fiction.","ed": 12,"rc": 40,"ra": 3.9},{"t": "Malina","a": "Ingeborg Bachmann","y": 1971,"s": ["experimental fiction","the body","trauma","modernism","loneliness","psychological fiction"],"n": "A woman split between two men and dissolving into fire and archive. Fierce, fractured, unforgettable.","ed": 16,"rc": 100,"ra": 4.0},{"t": "The Doll","a": "Boleslaw Prus","y": 1890,"s": ["realism","cities","love","society","history","domestic fiction"],"n": "A merchant's hopeless love, and a whole vanished Warsaw around it. Poland's great 19th-century novel, barely read in English.","ed": 18,"rc": 75,"ra": 4.2},{"t": "Roadside Picnic","a": "Arkady Strugatsky, Boris Strugatsky","y": 1972,"s": ["science fiction","the unknown","outsider","the uncanny","exploration","systems"],"n": "Aliens visited, left junk, and never noticed us — like litter after a picnic. The source of the film 'Stalker'.","ed": 30,"rc": 400,"ra": 4.2},{"t": "A Field Guide to Getting Lost","a": "Rebecca Solnit","y": 2005,"s": ["essays","memory","landscape","phenomenology","the unknown","travel"],"n": "Essays braiding maps, blue distance, and the uses of being lost. On the newer side, but built to last.","ed": 20,"rc": 380,"ra": 4.1},{"t": "The Rings of Saturn","a": "W. G. Sebald","y": 1995,"s": ["essays","memory","landscape","history","melancholy","travel"],"n": "A walk along the English coast that keeps falling through into silk-worms, herring, and the wreckage of history.","ed": 34,"rc": 520,"ra": 4.2},{"t": "Arctic Dreams","a": "Barry Lopez","y": 1986,"s": ["nature writing","landscape","exploration","ice","science","phenomenology"],"n": "The definitive book on how the far north acts on the human imagination. Patient as a glacier.","ed": 22,"rc": 240,"ra": 4.2},{"t": "The Sleepwalkers","a": "Arthur Koestler","y": 1959,"s": ["history","science","astronomy","philosophy","biography","systems"],"n": "How Copernicus, Kepler, and Galileo stumbled backward into the modern cosmos. History of science as tragicomedy.","ed": 18,"rc": 120,"ra": 4.2},{"t": "Pilgrim at Tinker Creek","a": "Annie Dillard","y": 1974,"s": ["nature writing","essays","phenomenology","landscape","religion","observation"],"n": "A year of ferocious attention at a Virginia creek. Terror and grace in equal, unbearable measure.","ed": 24,"rc": 460,"ra": 4.0},{"t": "The Spell of the Sensuous","a": "David Abram","y": 1996,"s": ["philosophy","ecology","phenomenology","language","anthropology","nature writing"],"n": "How alphabets may have severed us from the living land, argued by a philosopher who was also a sleight-of-hand magician.","ed": 16,"rc": 190,"ra": 4.2},{"t": "The Man Without Qualities","a": "Robert Musil","y": 1930,"s": ["modernism","philosophy","satire","systems","essays","encyclopedic fiction"],"n": "An unfinished masterpiece: a whole doomed empire thinking out loud on the eve of the First World War.","ed": 26,"rc": 180,"ra": 4.2},{"t": "We","a": "Yevgeny Zamyatin","y": 1924,"s": ["science fiction","satire","systems","revolution","dystopia","modernism"],"n": "The dystopia that taught Orwell and Huxley how. Written first, banned longest, read least.","ed": 40,"rc": 600,"ra": 4.0},{"t": "The Blue Flower","a": "Penelope Fitzgerald","y": 1995,"s": ["historical fiction","love","philosophy","domestic fiction","biography","melancholy"],"n": "The young poet Novalis falls in love with a plain twelve-year-old girl. Somehow luminous, wise, and weightless.","ed": 20,"rc": 300,"ra": 3.9},{"t": "Cosmicomics","a": "Italo Calvino","y": 1965,"s": ["science fiction","fantasy","comedy","science","fables","the unknown"],"n": "Bedtime stories told by an immortal who was there before the moon left the earth. Playful cosmology at its finest.","ed": 34,"rc": 480,"ra": 4.1},{"t": "Journey to the End of the Night","a": "Louis-Ferdinand Celine","y": 1932,"s": ["existentialism","war","satire","outsider","cities","the body"],"n": "A furious, foul, hilarious tour through war, colony, and slum. Reinvented the sound of the modern sentence.","ed": 28,"rc": 420,"ra": 4.1}];
+
+/* ============================ questions ============================ */
+const QUESTIONS = [
+  { key:"doorway", q:"It is 2 a.m. and you can't sleep. Which doorway do you walk toward?",
+    opts:[
+      {l:"A library that is very quietly on fire", tag:"burning-library", s:["philosophy","essays","aphorisms","memory"]},
+      {l:"A cave with a cold draft coming from deeper in", tag:"cave", s:["exploration","caves","geology","the unknown"], adv:.15},
+      {l:"A lit window across a dark courtyard", tag:"window", s:["domestic fiction","loneliness","cities"]},
+      {l:"A door in a tree that wasn't there yesterday", tag:"tree-door", s:["fantasy","folklore","fairy tales","the uncanny"], adv:.2},
+    ]},
+  { key:"doorway_appeal", q:"When a book truly grabs you, what pulled you in?",
+    opts:[
+      {l:"The people — I live inside characters", tag:"door-character", s:["character study","psychological fiction","biography"], set:{doorway:"character"}},
+      {l:"The place — take me somewhere", tag:"door-setting", s:["setting","atmosphere","landscape","travel"], set:{doorway:"setting"}},
+      {l:"The language — sentences I'd read aloud", tag:"door-language", s:["prose style","poetry","modernism"], set:{doorway:"language"}},
+      {l:"The story — what happens next", tag:"door-story", s:["plot","suspense","adventure"], set:{doorway:"story"}},
+    ]},
+  { key:"tone", q:"What emotional weather are you in the mood for?",
+    opts:[
+      {l:"Bleak and unflinching", tag:"tone-bleak", s:["tragedy","bleak","existentialism"], set:{tone:"bleak"}},
+      {l:"Warm and humane", tag:"tone-warm", s:["hopeful","humane","tender"], set:{tone:"warm"}},
+      {l:"Playful and strange", tag:"tone-playful", s:["playful","comedy","absurdist fiction"], set:{tone:"playful"}},
+      {l:"Unsettling — keep me off balance", tag:"tone-unsettling", s:["unsettling","the uncanny","the gothic"], set:{tone:"unsettling"}},
+    ]},
+  { key:"texture", q:"Pick a texture you'd want the prose to feel like:",
+    opts:[
+      {l:"Gravel underfoot", tag:"gravel", s:["realism","working class","rural life"]},
+      {l:"Static on an old radio", tag:"static", s:["experimental fiction","surrealism"], adv:.2},
+      {l:"Cold glass", tag:"glass", s:["modernism","architecture","precision"]},
+      {l:"Moss on stone", tag:"moss", s:["nature writing","ecology","landscape"]},
+    ]},
+  { key:"trust", q:"Which do you trust more?",
+    opts:[
+      {l:"A map", tag:"map", s:["science","systems","mathematics","history"]},
+      {l:"A rumor", tag:"rumor", s:["folklore","secret history","occult"], lean:-.2, adv:.15},
+      {l:"A scar", tag:"scar", s:["memoir","trauma","war"]},
+      {l:"A joke", tag:"joke", s:["satire","comedy","absurdist fiction"], adv:.1},
+    ]},
+  { key:"era", q:"A book arrives from where in time? (a lean, not a filter)",
+    opts:[
+      {l:"From before anyone you know was born", tag:"ancient", s:["classics","antiquity"], era:-.5},
+      {l:"The strange middle decades nobody remembers", tag:"mid-century", s:["mid-century","modernism"], era:-.2, lean:-.2},
+      {l:"Still warm from the present", tag:"present", s:["contemporary"], era:.45},
+      {l:"Doesn't matter — surprise me across time", tag:"any-era", s:[]},
+    ]},
+  { key:"familiarity", q:"How do you feel about a book everyone already knows?",
+    opts:[
+      {l:"Steer me off the beaten path", tag:"fam-low", s:[], lean:-.5},
+      {l:"I don't mind either way", tag:"fam-neutral", s:[]},
+      {l:"I'd happily read a beloved favourite", tag:"fam-high", s:[], lean:.5},
+    ]},
+  { key:"obsession", q:"Name something you're quietly obsessed with.",
+    free:true, placeholder:"a place, a craft, an idea, a fear…",
+    hint:"A word or two. Comma-separated is welcome. Or leave it blank." },
+];
+
+/* combinations → emergent, specific threads (weighted above single answers) */
+const COMBOS = [
+  { when:["static","rumor"], label:"paranoid, fragmentary, conspiratorial", s:["conspiracy","experimental fiction","secret history"], adv:.1 },
+  { when:["map","static"], label:"order dissolving into noise", s:["entropy","systems","experimental fiction"] },
+  { when:["rumor","ancient"], label:"heretical and secret histories", s:["secret history","occult","antiquity"] },
+  { when:["cave","moss"], label:"a damp descent into landscape", s:["caves","landscape","the unknown","geology"] },
+  { when:["burning-library","door-language"], label:"the bibliophile's sublime", s:["bibliomania","prose style","essays"] },
+  { when:["window","tone-bleak"], label:"the poetry of urban solitude", s:["loneliness","cities","melancholy"] },
+  { when:["tree-door","tone-unsettling"], label:"folk horror in the old woods", s:["folk horror","the uncanny","folklore"] },
+  { when:["gravel","scar"], label:"hard-bitten witness realism", s:["realism","war","working class","testimony"] },
+  { when:["cave","door-story"], label:"a descent with a pulse", s:["adventure","the unknown","suspense"] },
+];
+
+/* ============================ scoring (faithful JS port) ============================ */
+function logNorm(c, ceil){ return c<=0?0:Math.min(1, Math.log1p(c)/Math.log1p(ceil)); }
+function popularity(b){ return .4*logNorm(b.ed,120)+.3*logNorm(b.rc,3000)+.3*logNorm(b.rc,8000); }
+function recency(b){ if(!b.y) return .3; const y=Math.max(1500,Math.min(2025,b.y)); return (y-1500)/525; }
+function quality(b){ return (b.ra==null||b.rc<8)?null:Math.max(0,Math.min(1,b.ra/5)); }
+function subjMatch(want, subs){ for(const s of subs){ if(s.includes(want)||want.includes(s)) return true; } return false; }
+function match(b, prof){
+  const keys=Object.keys(prof.subjects); if(!keys.length) return .4;
+  let hits=0, tot=0;
+  for(const w of keys){ tot+=prof.subjects[w]; if(subjMatch(w,b.s)) hits+=prof.subjects[w]; }
+  return Math.max(0,Math.min(1, tot?hits/tot:0));
+}
+function topSubjects(prof,n){ return Object.entries(prof.subjects).sort((a,c)=>c[1]-a[1]).slice(0,n).map(e=>e[0]); }
+function unexpected(b, prof){
+  const keys=Object.keys(prof.subjects); if(!keys.length) return 0;
+  const top=topSubjects(prof,2);
+  for(const t of top){ if(subjMatch(t,b.s)) return 0; }
+  return 1;
+}
+function score(b, prof){
+  const m=match(b,prof), pop=popularity(b), rec=recency(b), q=quality(b), unx=unexpected(b,prof);
+  const qterm=q==null?0:.5*q*(.35+.65*m);
+  const serend=prof.adv*Math.max(0,m)*unx;
+  const s = 1.2*m + qterm + prof.lean*(pop-.5) + prof.era*(rec-.5) + serend;
+  const wild = unx>=1 && serend>=.12 && m<.5;
+  return {b, s, m, pop, rec, q, unx, wild, serend};
+}
+function recommend(prof, limit){
+  let ranked = CORPUS.map(b=>score(b,prof)).sort((a,c)=>c.s-a.s);
+  if(Object.keys(prof.subjects).length){
+    const rel = ranked.filter(x=>x.m>=.06);
+    if(rel.length>=Math.max(limit,5)) ranked=rel;
+  }
+  const out=[], seen={};
+  for(const x of ranked){
+    const a=(x.b.a||"").toLowerCase(); if((seen[a]||0)>=2) continue;
+    seen[a]=(seen[a]||0)+1; out.push(x); if(out.length>=limit) break;
+  }
+  // guarantee a wildcard if the reader is adventurous
+  if(prof.adv>=.35 && out.length>=3 && !out.some(x=>x.wild)){
+    const w=ranked.find(x=>x.wild && !out.includes(x));
+    if(w){ const weakest=out.filter(x=>!x.wild).reduce((p,c)=>c.s<p.s?c:p); out[out.indexOf(weakest)]=w; }
+  }
+  return out;
+}
+
+/* ============================ state + flow ============================ */
+const S = { i:0, answers:{}, tags:[], profile:null };
+const $ = s=>document.querySelector(s);
+function show(id){ document.querySelectorAll(".view").forEach(v=>v.classList.remove("on")); $(id).classList.add("on"); window.scrollTo({top:0,behavior:"instant"}); }
+const ROMAN=["I","II","III","IV","V","VI","VII","VIII","IX","X"];
+
+function renderProgress(){
+  const p=$("#progress"); p.innerHTML="";
+  QUESTIONS.forEach((_,k)=>{ const d=document.createElement("span"); d.className="pip"+(k<S.i?" done":k===S.i?" here":""); p.appendChild(d); });
+}
+function renderQuestion(){
+  const Q=QUESTIONS[S.i];
+  $("#catNo").textContent="CARD "+ROMAN[S.i];
+  renderProgress();
+  $("#qText").textContent=Q.q;
+  const body=$("#qBody"); body.innerHTML="";
+  if(Q.free){
+    body.className="freeform";
+    const inp=document.createElement("input");
+    inp.type="text"; inp.placeholder=Q.placeholder; inp.value=S.answers[Q.key]?.text||"";
+    inp.id="freeInput"; inp.autocomplete="off";
+    inp.addEventListener("keydown",e=>{ if(e.key==="Enter") advance(); });
+    const hint=document.createElement("div"); hint.className="hint"; hint.textContent=Q.hint;
+    body.appendChild(inp); body.appendChild(hint);
+    setTimeout(()=>inp.focus(),80);
+  } else {
+    body.className="options";
+    Q.opts.forEach((o,idx)=>{
+      const btn=document.createElement("button");
+      btn.className="opt"+(S.answers[Q.key]?.idx===idx?" sel":"");
+      btn.innerHTML=`<span class="mk"></span><span class="lbl">${o.l}</span>`;
+      btn.addEventListener("click",()=>{
+        S.answers[Q.key]={idx, opt:o};
+        body.querySelectorAll(".opt").forEach(e=>e.classList.remove("sel"));
+        btn.classList.add("sel"); updateNext();
+      });
+      body.appendChild(btn);
+    });
+  }
+  $("#backBtn").style.visibility = S.i===0 ? "hidden":"visible";
+  $("#nextBtn").textContent = S.i===QUESTIONS.length-1 ? "Read my shelf" : "Continue";
+  updateNext();
+}
+function updateNext(){
+  const Q=QUESTIONS[S.i];
+  const ok = Q.free ? true : (S.answers[Q.key]!=null);
+  $("#nextBtn").disabled = !ok;
+}
+function advance(){
+  const Q=QUESTIONS[S.i];
+  if(Q.free){ const v=$("#freeInput")?.value?.trim()||""; if(v) S.answers[Q.key]={text:v}; }
+  if(S.i<QUESTIONS.length-1){ S.i++; renderQuestion(); }
+  else { buildProfile(); showSynthesis(); }
+}
+function back(){ if(S.i>0){ S.i--; renderQuestion(); } }
+
+/* build the taste profile from answers, then run the synthesis layer */
+function buildProfile(){
+  const prof={subjects:{}, keywords:[], lean:0, era:0, adv:.4, doorway:"", tone:"", emergent:[], moods:[]};
+  const tags=[];
+  function addS(s,w){ s=s.toLowerCase(); prof.subjects[s]=(prof.subjects[s]||0)+w; }
+  for(const Q of QUESTIONS){
+    const a=S.answers[Q.key]; if(!a) continue;
+    if(Q.free){
+      (a.text||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(p=>{ addS(p,.8); prof.keywords.push(p); prof.moods.push(p); });
+      continue;
+    }
+    const o=a.opt;
+    (o.s||[]).forEach((s,r)=>addS(s, Math.max(.4,1-.15*r)));
+    if(o.lean) prof.lean=clamp(prof.lean+o.lean,-1,1);
+    if(o.era) prof.era=clamp(prof.era+o.era,-1,1);
+    if(o.adv) prof.adv=clamp(prof.adv+o.adv,0,1);
+    if(o.set){ Object.assign(prof,o.set); }
+    if(o.tag) tags.push(o.tag);
+  }
+  // synthesis: combinations → emergent threads (weighted above single answers)
+  for(const c of COMBOS){ if(c.when.every(t=>tags.includes(t))){ c.s.forEach(s=>addS(s,1.4)); if(c.adv) prof.adv=clamp(prof.adv+c.adv,0,1); prof.emergent.push(c.label); } }
+  S.tags=tags; S.profile=prof;
+}
+function clamp(x,a,b){ return Math.max(a,Math.min(b,x)); }
+
+function showSynthesis(){
+  const prof=S.profile;
+  const read=$("#synthRead");
+  if(prof.emergent.length){
+    read.innerHTML = "You're after "+prof.emergent.map(e=>`<span class="thread">${e}</span>`).join(", and ")+".";
+  } else {
+    const appeal = prof.doorway ? `the ${prof.doorway}` : "the sideways";
+    read.innerHTML = `A reader who comes in through <span class="thread">${appeal}</span> door`+(prof.tone?`, wanting a <span class="thread">${prof.tone}</span> register`:"")+`.`;
+  }
+  const tw=$("#synthTags"); tw.innerHTML="";
+  topSubjects(prof,6).forEach(s=>{ const t=document.createElement("span"); t.className="tag"; t.textContent=s; tw.appendChild(t); });
+  show("#v-synth");
+}
+
+/* ============================ results ============================ */
+function annas(b){ return "https://annas-archive.org/search?q="+encodeURIComponent((b.t+" "+b.a).trim()); }
+function openlib(b){ return "https://openlibrary.org/search?q="+encodeURIComponent((b.t+" "+b.a).trim()); }
+function famWord(p){ return p<.2?"little-known":p<.45?"seldom-shelved":p<.7?"known":"widely read"; }
+function eraWord(b){ return b.y?String(b.y):"undated"; }
+
+function meter(label, val, valText){
+  const ticks=[0,.25,.5,.75,1].map(t=>`<span class="tick" style="left:${t*100}%"></span>`).join("");
+  return `<div class="meter"><span class="ml">${label}</span><span class="track">${ticks}<span class="dot" style="left:${Math.max(0,Math.min(1,val))*100}%"></span></span><span class="mv">${valText}</span></div>`;
+}
+function reasons(x){
+  const b=x.b, out=[];
+  if(x.wild) out.push({t:"wildcard", c:"wild"});
+  if(x.b.curated!==false) out.push({t:"curated deep cut", c:"curated"});
+  if(x.pop<.25) out.push({t:"little-known", c:""});
+  if(b.y&&b.y<1970) out.push({t:"from "+b.y, c:""});
+  return out;
+}
+let LIVE=false;
+async function detectLive(){ try{ const r=await fetch("api/health"); LIVE=r.ok; }catch(e){ LIVE=false; } }
+async function fetchLive(prof, limit){
+  try{
+    const r=await fetch("api/recommend",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({subjects:prof.subjects,keywords:prof.keywords,lean:prof.lean,era:prof.era,adv:prof.adv,doorway:prof.doorway,tone:prof.tone,limit})});
+    if(!r.ok) return null;
+    const d=await r.json();
+    return d.picks.map(p=>({b:{t:p.title,a:p.author,y:p.year,s:p.subjects,n:p.note,curated:p.curated},
+      m:p.match,pop:p.popularity,rec:p.recency,unx:0,wild:p.wildcard,serend:p.serendipity,
+      _links:{annas:p.annas_url,openlib:p.openlibrary_url,free:p.free_url}}));
+  }catch(e){ return null; }
+}
+
+async function render(){
+  const prof=S.profile;
+  const limit=8;
+  let picks;
+  if(LIVE){ picks=await fetchLive(prof,limit); if(!picks){ LIVE=false; picks=recommend(prof,limit); } }
+  else picks=recommend(prof, limit);
+  $("#resTitle").textContent = numberWord(picks.length)+" to take down";
+  $("#resSummary").textContent = summarize(prof);
+  const em=$("#resEmergent");
+  if(prof.emergent.length){ em.innerHTML="Read between your answers: "+prof.emergent.map(e=>`<em>${e}</em>`).join("; ")+"."; em.style.display="block"; }
+  else em.style.display="none";
+
+  const shelf=$("#shelf"); shelf.innerHTML="";
+  picks.forEach((x,i)=>{
+    const b=x.b;
+    const badges=reasons(x).map(r=>`<span class="badge ${r.c}">${r.t}</span>`).join("");
+    const wildLine = x.wild ? `<p class="note">A lateral fit — reached sideways through your threads, not the obvious one. That's the spark.</p>` : "";
+    const L = x._links || {annas:annas(b), openlib:openlib(b), free:null};
+    const freeLink = L.free ? `<a href="${L.free}" target="_blank" rel="noopener">Read free <span class="ext">↗</span></a>` : "";
+    const el=document.createElement("article"); el.className="entry";
+    el.innerHTML=`
+      <div class="idx">${String(i+1).padStart(2,"0")}</div>
+      <div class="body">
+        <h3 class="title">${b.t} ${b.y?`<span class="yr">${b.y}</span>`:""}</h3>
+        <div class="byline">${b.a||"Unknown"}</div>
+        ${b.n?`<p class="note">${b.n}</p>`:""}
+        ${wildLine}
+        <div class="badges">${badges}</div>
+        <div class="meters">
+          ${meter("Familiarity", x.pop, famWord(x.pop))}
+          ${meter("Vintage", x.rec, eraWord(b))}
+        </div>
+        <div class="links">
+          ${freeLink}
+          <a href="${L.annas}" target="_blank" rel="noopener">Anna's Archive <span class="ext">↗</span></a>
+          <a href="${L.openlib}" target="_blank" rel="noopener">Open Library <span class="ext">↗</span></a>
+        </div>
+      </div>`;
+    shelf.appendChild(el);
+  });
+  $("#footnote").innerHTML = LIVE
+    ? "Live from <code>Open Library</code> — tens of millions of works, plus a curator's deep cuts. Popularity and recency were considered — shown above as instruments — never subtracted."
+    : "This demo draws on Deepshelf's hand-curated corpus of deep cuts. Run the tool with <code>deepshelf --serve</code> to query <code>Open Library</code> live. Popularity and recency were considered — shown above as instruments — never subtracted.";
+}
+function numberWord(n){ return ["zero","one","two","three","four","five","six","seven","eight","nine","ten"][n]?.replace(/^\w/,c=>c.toUpperCase())||String(n); }
+function summarize(prof){
+  const art = w => /^[aeiou]/i.test(w)?"an":"a";
+  let era = prof.era<-.15?"leaning older":prof.era>.15?"leaning newer":"any era";
+  const fam = prof.lean<-.15?"toward the little-known":prof.lean>.15?"toward the well-loved":"popularity neutral";
+  const appeal = prof.doorway?`You read for ${prof.doorway}`+(prof.tone?`, in ${art(prof.tone)} ${prof.tone} register. `:". "):"";
+  if(appeal) era = era.charAt(0).toUpperCase()+era.slice(1);
+  return `${appeal}${era}; ${fam}; serendipity ${Math.round(prof.adv*100)}%.`;
+}
+
+/* controls */
+function wireControls(){
+  function seg(id, apply){
+    const el=$(id);
+    el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+      el.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+      apply(parseFloat(b.dataset.v)); render();
+    }));
+  }
+  seg("#segLean", v=>S.profile.lean=v);
+  seg("#segEra", v=>S.profile.era=v);
+  const r=$("#advRange");
+  r.addEventListener("input",()=>{ S.profile.adv=r.value/100; $("#advVal").textContent=r.value+"%"; render(); });
+}
+function syncControls(){
+  $("#advRange").value=Math.round(S.profile.adv*100); $("#advVal").textContent=Math.round(S.profile.adv*100)+"%";
+  function setSeg(id,v){ const el=$(id); el.querySelectorAll("button").forEach(b=>b.classList.toggle("on", Math.abs(parseFloat(b.dataset.v)-v)<.01 || (Math.abs(v)>.3 && Math.sign(parseFloat(b.dataset.v))===Math.sign(v) && parseFloat(b.dataset.v)!==0))); }
+  // simple: snap segments to nearest of -0.6/0/0.6
+  snapSeg("#segLean", S.profile.lean); snapSeg("#segEra", S.profile.era);
+}
+function snapSeg(id,v){ const el=$(id); let best=null,bd=1e9; el.querySelectorAll("button").forEach(b=>{const d=Math.abs(parseFloat(b.dataset.v)-v); if(d<bd){bd=d;best=b;}}); el.querySelectorAll("button").forEach(b=>b.classList.remove("on")); if(best)best.classList.add("on"); }
+
+/* ============================ theme ============================ */
+function initTheme(){
+  const btn=$("#themeBtn");
+  function cur(){ const a=document.documentElement.getAttribute("data-theme"); if(a) return a; return matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"; }
+  function set(t){ document.documentElement.setAttribute("data-theme",t); btn.textContent = t==="dark"?"Light":"Dark"; }
+  set(cur());
+  btn.addEventListener("click",()=>set(cur()==="dark"?"light":"dark"));
+}
+
+/* ============================ wire up ============================ */
+$("#beginBtn").addEventListener("click",()=>{ show("#v-interview"); renderQuestion(); });
+$("#nextBtn").addEventListener("click",advance);
+$("#backBtn").addEventListener("click",back);
+$("#toResults").addEventListener("click",()=>{ show("#v-results"); syncControls(); render(); });
+$("#restartBtn").addEventListener("click",()=>{ S.i=0; S.answers={}; S.tags=[]; S.profile=null; show("#v-intro"); });
+document.addEventListener("keydown",e=>{
+  if($("#v-interview").classList.contains("on")){
+    const Q=QUESTIONS[S.i];
+    if(!Q.free && /^[1-9]$/.test(e.key)){ const idx=+e.key-1; const opts=$("#qBody").querySelectorAll(".opt"); if(opts[idx]) opts[idx].click(); }
+    if(e.key==="Enter" && !$("#nextBtn").disabled) advance();
+  }
+});
+wireControls();
+initTheme();
+detectLive();
+</script>

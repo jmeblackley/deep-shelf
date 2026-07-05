@@ -464,5 +464,39 @@ def test_critique_rejects_gibberish():
     assert _apply_critique(p, "flibbertigibbet", []) is False
 
 
+# --- web backend ------------------------------------------------------------
+
+from deepshelf.web import _profile_from_payload, _pick_to_json  # noqa: E402
+
+
+def test_web_profile_from_payload():
+    p = _profile_from_payload({
+        "subjects": {"modernism": 1.4, "the uncanny": 1.2},
+        "keywords": ["ruins"], "lean": -0.3, "era": 0.2, "adv": 0.6,
+        "doorway": "language", "tone": "unsettling",
+    })
+    assert p.subjects["modernism"] == 1.4
+    assert p.popularity_lean == -0.3 and p.era_bias == 0.2
+    assert p.doorway == "language" and p.tone == "unsettling"
+    assert "ruins" in p.keywords
+
+
+def test_web_profile_clamps_bad_values():
+    p = _profile_from_payload({"lean": 5, "era": -9, "adv": "oops"})
+    assert p.popularity_lean == 1.0 and p.era_bias == -1.0
+    assert p.adventurousness == 0.0  # non-numeric falls back to the low clamp
+
+
+def test_web_pick_to_json_shape():
+    profile = TasteProfile()
+    profile.add_subject("nature writing")
+    picks = recommend(profile, client=_offline_client(), limit=1)
+    j = _pick_to_json(picks[0], profile)
+    for key in ("title", "author", "popularity", "recency", "match",
+                "wildcard", "annas_url", "openlibrary_url"):
+        assert key in j
+    assert j["annas_url"].startswith("https://annas-archive.org/")
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

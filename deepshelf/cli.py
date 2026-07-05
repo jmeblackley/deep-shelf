@@ -98,6 +98,8 @@ def build_parser() -> argparse.ArgumentParser:
     out.add_argument("--offline", action="store_true",
                      help="use only the curated corpus + cache; no network")
     out.add_argument("--cache-dir", type=Path, help="where to cache API responses")
+    out.add_argument("--serve", nargs="?", const=8000, type=int, metavar="PORT",
+                     help="launch the web UI (default port 8000) instead of the CLI")
     out.add_argument("--no-diversify", action="store_true",
                      help="allow one author to dominate the shelf")
     out.add_argument("--refine", action="store_true",
@@ -169,6 +171,11 @@ def _apply_dials(profile: TasteProfile, args) -> None:
 
 def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
+
+    if args.serve is not None:
+        from .web import serve
+        serve(port=args.serve)
+        return 0
 
     seeded = bool(args.answer or args.subject or args.keyword or args.quick)
     # With --history and nothing else, build purely from the reader's shelf and

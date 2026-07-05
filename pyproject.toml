@@ -31,4 +31,4 @@ deepshelf = "deepshelf.cli:main"
 packages = ["deepshelf"]
 
 [tool.setuptools.package-data]
-deepshelf = ["data/*.json"]
+deepshelf = ["data/*.json", "web/*.html"]

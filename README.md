@@ -61,6 +61,23 @@ $ deepshelf
 The design choices above are grounded in peer-reviewed literature — see
 [`docs/DESIGN.md`](docs/DESIGN.md).
 
+## The web interface
+
+Prefer a screen to a terminal? Deepshelf ships a single-page reading-room UI —
+an oblique interview, a synthesis beat that reads between your answers, and a
+shelf of considered catalog entries. It's responsive (built for phone and
+desktop), theme-aware, and served by a zero-dependency stdlib backend that runs
+the *same* recommender against live Open Library data.
+
+```bash
+deepshelf --serve            # open http://127.0.0.1:8000
+deepshelf --serve 9000       # choose a port
+```
+
+The page (`deepshelf/web/index.html`) also works opened straight from disk — it
+falls back to the embedded curated corpus when no server is present, so it's
+fully self-contained.
+
 ## Install
 
 Pure standard library, zero runtime dependencies.
