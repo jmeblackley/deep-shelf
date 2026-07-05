@@ -322,62 +322,152 @@
 <script>
 const CORPUS = [{"t": "The Invention of Morel","a": "Adolfo Bioy Casares","y": 1940,"s": ["experimental fiction","the uncanny","islands","memory","science fiction","unreliable narrator"],"n": "A fugitive on a deserted island discovers the machinery of eternity. Borges called it perfect.","ed": 22,"rc": 90,"ra": 4.2},{"t": "The Peregrine","a": "J. A. Baker","y": 1967,"s": ["nature writing","birds","ecology","landscape","observation","obsession"],"n": "One man follows falcons across an Essex winter until the boundary between watcher and watched dissolves.","ed": 14,"rc": 40,"ra": 4.4},{"t": "The Street of Crocodiles","a": "Bruno Schulz","y": 1934,"s": ["surrealism","the uncanny","memory","cities","modernism","fathers"],"n": "A Polish shopkeeper's town mutates into myth. Schulz was shot in the street by a Gestapo officer in 1942; most of his work is lost.","ed": 30,"rc": 120,"ra": 4.1},{"t": "The Tartar Steppe","a": "Dino Buzzati","y": 1940,"s": ["existentialism","war","waiting","melancholy","the absurd","outsider"],"n": "An officer spends his whole life at a remote fort awaiting an enemy that may never come.","ed": 28,"rc": 140,"ra": 4.2},{"t": "Nightwood","a": "Djuna Barnes","y": 1936,"s": ["modernism","loneliness","the gothic","outsider","the body","night"],"n": "A fever-prose masterpiece of desire and ruin in interwar Paris. T. S. Eliot championed it; almost nobody reads it.","ed": 26,"rc": 160,"ra": 3.9},{"t": "The Third Policeman","a": "Flann O'Brien","y": 1967,"s": ["absurdist fiction","comedy","the uncanny","philosophy","ghost stories","satire"],"n": "A murderer, a bicycle problem, and a hell shaped like rural Ireland. Rejected in his lifetime, published after his death.","ed": 24,"rc": 210,"ra": 4.1},{"t": "A Voyage to Arcturus","a": "David Lindsay","y": 1920,"s": ["fantasy","philosophy","the unknown","science fiction","occult","otherworld"],"n": "A pilgrimage across an alien planet where every landscape is a moral argument. Sold 596 copies on release.","ed": 20,"rc": 70,"ra": 3.8},{"t": "The Book of Disquiet","a": "Fernando Pessoa","y": 1982,"s": ["fragments","philosophy","melancholy","essays","loneliness","cities"],"n": "The diary of a Lisbon bookkeeper who never lived and never stopped noticing. Assembled from a trunk of unsorted scraps.","ed": 34,"rc": 300,"ra": 4.4},{"t": "The Notebooks of Malte Laurids Brigge","a": "Rainer Maria Rilke","y": 1910,"s": ["modernism","loneliness","the body","cities","memory","phenomenology"],"n": "A young poet in Paris learns to see. The first great novel of pure attention.","ed": 32,"rc": 130,"ra": 4.1},{"t": "Life A User's Manual","a": "Georges Perec","y": 1978,"s": ["encyclopedic fiction","cities","systems","miscellany","domestic fiction","obsession"],"n": "A Paris apartment building rendered room by room as an infinite puzzle. Built on a mathematical scaffold you never see.","ed": 24,"rc": 180,"ra": 4.3},{"t": "Nada","a": "Carmen Laforet","y": 1945,"s": ["realism","coming of age","cities","domestic fiction","war","outsider"],"n": "A teenager arrives in postwar Barcelona to a household slowly eating itself. Written by a 23-year-old.","ed": 18,"rc": 95,"ra": 4.0},{"t": "The Opposing Shore","a": "Julien Gracq","y": 1951,"s": ["waiting","war","melancholy","modernism","landscape","the unknown"],"n": "On a frontier frozen in a centuries-old cold war, a young officer is drawn toward the forbidden far shore.","ed": 12,"rc": 45,"ra": 4.0},{"t": "Ferdydurke","a": "Witold Gombrowicz","y": 1937,"s": ["satire","absurdist fiction","comedy","philosophy","the body","coming of age"],"n": "A grown man is dragged back to school and infantilised in a farce about the tyranny of form.","ed": 20,"rc": 85,"ra": 3.9},{"t": "Petersburg","a": "Andrei Bely","y": 1913,"s": ["modernism","cities","the uncanny","revolution","satire","the gothic"],"n": "A ticking bomb, a father, a son, and a city dissolving into shadow. Nabokov ranked it among the century's four greatest novels.","ed": 22,"rc": 110,"ra": 3.9},{"t": "Concrete","a": "Thomas Bernhard","y": 1982,"s": ["existentialism","melancholy","the body","obsession","outsider","monograph"],"n": "A single unbroken paragraph of a man failing to begin the book he has meant to write for a decade. Savage and funny.","ed": 16,"rc": 130,"ra": 4.1},{"t": "The Man Who Loved Children","a": "Christina Stead","y": 1940,"s": ["domestic fiction","family","realism","the body","trauma","satire"],"n": "The most exact and terrifying portrait of a marriage in the language. Went out of print for twenty years.","ed": 18,"rc": 160,"ra": 3.8},{"t": "On Growth and Form","a": "D'Arcy Wentworth Thompson","y": 1917,"s": ["science","mathematics","natural history","biology","systems","craft"],"n": "Why living things take the shapes they do, argued through geometry. A century of biologists have kept it on the desk.","ed": 30,"rc": 90,"ra": 4.3},{"t": "The Immense Journey","a": "Loren Eiseley","y": 1957,"s": ["nature writing","science","essays","evolution","geology","phenomenology"],"n": "An anthropologist writes about deep time the way poets write about love. The prose alone is worth it.","ed": 20,"rc": 110,"ra": 4.4},{"t": "Tristes Tropiques","a": "Claude Levi-Strauss","y": 1955,"s": ["anthropology","travel","essays","philosophy","memory","exploration"],"n": "The great anthropologist's anti-travel book: 'I hate travelling and explorers,' it opens, then it breaks your heart.","ed": 24,"rc": 130,"ra": 4.1},{"t": "The Poetics of Space","a": "Gaston Bachelard","y": 1958,"s": ["philosophy","architecture","phenomenology","memory","the ordinary","essays"],"n": "A philosopher on drawers, corners, nests, and attics — why intimate spaces shape the soul.","ed": 22,"rc": 140,"ra": 4.2},{"t": "The Gift","a": "Marcel Mauss","y": 1925,"s": ["anthropology","systems","economics","history","essays","society"],"n": "The little book that revealed how gifts bind and obligate across every human culture. Foundational and short.","ed": 26,"rc": 70,"ra": 4.0},{"t": "Hydriotaphia, Urn Burial","a": "Thomas Browne","y": 1658,"s": ["essays","antiquity","death","philosophy","aphorisms","memory"],"n": "Prompted by some unearthed funeral urns, the finest prose meditation on oblivion in English.","ed": 16,"rc": 30,"ra": 4.1},{"t": "The Anatomy of Melancholy","a": "Robert Burton","y": 1621,"s": ["essays","philosophy","melancholy","miscellany","medicine","encyclopedic fiction"],"n": "A 17th-century doctor's sprawling, digressive, inexhaustible encyclopedia of human sadness. You do not finish it; you live in it.","ed": 28,"rc": 60,"ra": 4.2},{"t": "The Death of Virgil","a": "Hermann Broch","y": 1945,"s": ["modernism","death","antiquity","philosophy","the body","melancholy"],"n": "The poet's last eighteen hours, told in vast unspooling sentences. One of the hardest, most beautiful books ever written.","ed": 14,"rc": 55,"ra": 3.8},{"t": "The Other Side","a": "Alfred Kubin","y": 1908,"s": ["fantasy","the uncanny","surrealism","the gothic","dreams","otherworld"],"n": "An artist is invited to a dream-kingdom that is quietly rotting. Predates and outstrips much later weird fiction.","ed": 12,"rc": 40,"ra": 3.9},{"t": "Malina","a": "Ingeborg Bachmann","y": 1971,"s": ["experimental fiction","the body","trauma","modernism","loneliness","psychological fiction"],"n": "A woman split between two men and dissolving into fire and archive. Fierce, fractured, unforgettable.","ed": 16,"rc": 100,"ra": 4.0},{"t": "The Doll","a": "Boleslaw Prus","y": 1890,"s": ["realism","cities","love","society","history","domestic fiction"],"n": "A merchant's hopeless love, and a whole vanished Warsaw around it. Poland's great 19th-century novel, barely read in English.","ed": 18,"rc": 75,"ra": 4.2},{"t": "Roadside Picnic","a": "Arkady Strugatsky, Boris Strugatsky","y": 1972,"s": ["science fiction","the unknown","outsider","the uncanny","exploration","systems"],"n": "Aliens visited, left junk, and never noticed us — like litter after a picnic. The source of the film 'Stalker'.","ed": 30,"rc": 400,"ra": 4.2},{"t": "A Field Guide to Getting Lost","a": "Rebecca Solnit","y": 2005,"s": ["essays","memory","landscape","phenomenology","the unknown","travel"],"n": "Essays braiding maps, blue distance, and the uses of being lost. On the newer side, but built to last.","ed": 20,"rc": 380,"ra": 4.1},{"t": "The Rings of Saturn","a": "W. G. Sebald","y": 1995,"s": ["essays","memory","landscape","history","melancholy","travel"],"n": "A walk along the English coast that keeps falling through into silk-worms, herring, and the wreckage of history.","ed": 34,"rc": 520,"ra": 4.2},{"t": "Arctic Dreams","a": "Barry Lopez","y": 1986,"s": ["nature writing","landscape","exploration","ice","science","phenomenology"],"n": "The definitive book on how the far north acts on the human imagination. Patient as a glacier.","ed": 22,"rc": 240,"ra": 4.2},{"t": "The Sleepwalkers","a": "Arthur Koestler","y": 1959,"s": ["history","science","astronomy","philosophy","biography","systems"],"n": "How Copernicus, Kepler, and Galileo stumbled backward into the modern cosmos. History of science as tragicomedy.","ed": 18,"rc": 120,"ra": 4.2},{"t": "Pilgrim at Tinker Creek","a": "Annie Dillard","y": 1974,"s": ["nature writing","essays","phenomenology","landscape","religion","observation"],"n": "A year of ferocious attention at a Virginia creek. Terror and grace in equal, unbearable measure.","ed": 24,"rc": 460,"ra": 4.0},{"t": "The Spell of the Sensuous","a": "David Abram","y": 1996,"s": ["philosophy","ecology","phenomenology","language","anthropology","nature writing"],"n": "How alphabets may have severed us from the living land, argued by a philosopher who was also a sleight-of-hand magician.","ed": 16,"rc": 190,"ra": 4.2},{"t": "The Man Without Qualities","a": "Robert Musil","y": 1930,"s": ["modernism","philosophy","satire","systems","essays","encyclopedic fiction"],"n": "An unfinished masterpiece: a whole doomed empire thinking out loud on the eve of the First World War.","ed": 26,"rc": 180,"ra": 4.2},{"t": "We","a": "Yevgeny Zamyatin","y": 1924,"s": ["science fiction","satire","systems","revolution","dystopia","modernism"],"n": "The dystopia that taught Orwell and Huxley how. Written first, banned longest, read least.","ed": 40,"rc": 600,"ra": 4.0},{"t": "The Blue Flower","a": "Penelope Fitzgerald","y": 1995,"s": ["historical fiction","love","philosophy","domestic fiction","biography","melancholy"],"n": "The young poet Novalis falls in love with a plain twelve-year-old girl. Somehow luminous, wise, and weightless.","ed": 20,"rc": 300,"ra": 3.9},{"t": "Cosmicomics","a": "Italo Calvino","y": 1965,"s": ["science fiction","fantasy","comedy","science","fables","the unknown"],"n": "Bedtime stories told by an immortal who was there before the moon left the earth. Playful cosmology at its finest.","ed": 34,"rc": 480,"ra": 4.1},{"t": "Journey to the End of the Night","a": "Louis-Ferdinand Celine","y": 1932,"s": ["existentialism","war","satire","outsider","cities","the body"],"n": "A furious, foul, hilarious tour through war, colony, and slum. Reinvented the sound of the modern sentence.","ed": 28,"rc": 420,"ra": 4.1}];
 
-/* ============================ questions ============================ */
-const QUESTIONS = [
-  { key:"doorway", q:"It is 2 a.m. and you can't sleep. Which doorway do you walk toward?",
-    opts:[
-      {l:"A library that is very quietly on fire", tag:"burning-library", s:["philosophy","essays","aphorisms","memory"]},
-      {l:"A cave with a cold draft coming from deeper in", tag:"cave", s:["exploration","caves","geology","the unknown"], adv:.15},
-      {l:"A lit window across a dark courtyard", tag:"window", s:["domestic fiction","loneliness","cities"]},
-      {l:"A door in a tree that wasn't there yesterday", tag:"tree-door", s:["fantasy","folklore","fairy tales","the uncanny"], adv:.2},
-    ]},
-  { key:"doorway_appeal", q:"When a book truly grabs you, what pulled you in?",
-    opts:[
+/* ============================ questions ============================
+   The interview has three ANCHORS asked every time (the axes the recommender
+   needs: appeal doorway, tone, and a free obsession) — each with several
+   phrasings so repeat visitors don't see identical wording — plus an OBLIQUE
+   POOL of projective questions, of which a fresh handful is sampled each
+   session (never repeating the previous session's set). Every option maps to
+   subject threads (+ optional lean/era/serendipity nudges) so it feeds the
+   objective: bridge sideways answers to specific, nuanced recommendations. */
+
+const OBLIQUE_PER_SESSION = 4;
+
+/* --- anchors: same option tags across phrasings, so mapping stays stable --- */
+const ANCHOR_DOORWAY = [
+  { q:"When a book truly grabs you, what pulled you in?", opts:[
       {l:"The people — I live inside characters", tag:"door-character", s:["character study","psychological fiction","biography"], set:{doorway:"character"}},
       {l:"The place — take me somewhere", tag:"door-setting", s:["setting","atmosphere","landscape","travel"], set:{doorway:"setting"}},
       {l:"The language — sentences I'd read aloud", tag:"door-language", s:["prose style","poetry","modernism"], set:{doorway:"language"}},
-      {l:"The story — what happens next", tag:"door-story", s:["plot","suspense","adventure"], set:{doorway:"story"}},
-    ]},
-  { key:"tone", q:"What emotional weather are you in the mood for?",
-    opts:[
+      {l:"The story — what happens next", tag:"door-story", s:["plot","suspense","adventure"], set:{doorway:"story"}} ]},
+  { q:"Weeks later, what do you still remember about a book you loved?", opts:[
+      {l:"A person who felt utterly real", tag:"door-character", s:["character study","psychological fiction","biography"], set:{doorway:"character"}},
+      {l:"A place I could smell and stand in", tag:"door-setting", s:["setting","atmosphere","landscape","travel"], set:{doorway:"setting"}},
+      {l:"A sentence I underlined twice", tag:"door-language", s:["prose style","poetry","modernism"], set:{doorway:"language"}},
+      {l:"What happened, and what happened next", tag:"door-story", s:["plot","suspense","adventure"], set:{doorway:"story"}} ]},
+  { q:"Finish it: 'I couldn't put it down because of the ___'", opts:[
+      {l:"…characters", tag:"door-character", s:["character study","psychological fiction","biography"], set:{doorway:"character"}},
+      {l:"…world", tag:"door-setting", s:["setting","atmosphere","landscape","travel"], set:{doorway:"setting"}},
+      {l:"…writing", tag:"door-language", s:["prose style","poetry","modernism"], set:{doorway:"language"}},
+      {l:"…plot", tag:"door-story", s:["plot","suspense","adventure"], set:{doorway:"story"}} ]},
+];
+const ANCHOR_TONE = [
+  { q:"What emotional weather are you in the mood for?", opts:[
       {l:"Bleak and unflinching", tag:"tone-bleak", s:["tragedy","bleak","existentialism"], set:{tone:"bleak"}},
       {l:"Warm and humane", tag:"tone-warm", s:["hopeful","humane","tender"], set:{tone:"warm"}},
       {l:"Playful and strange", tag:"tone-playful", s:["playful","comedy","absurdist fiction"], set:{tone:"playful"}},
-      {l:"Unsettling — keep me off balance", tag:"tone-unsettling", s:["unsettling","the uncanny","the gothic"], set:{tone:"unsettling"}},
-    ]},
-  { key:"texture", q:"Pick a texture you'd want the prose to feel like:",
-    opts:[
+      {l:"Unsettling — keep me off balance", tag:"tone-unsettling", s:["unsettling","the uncanny","the gothic"], set:{tone:"unsettling"}} ]},
+  { q:"How should the book leave you feeling?", opts:[
+      {l:"Hollowed out, but truthfully", tag:"tone-bleak", s:["tragedy","bleak","existentialism"], set:{tone:"bleak"}},
+      {l:"Held, a little mended", tag:"tone-warm", s:["hopeful","humane","tender"], set:{tone:"warm"}},
+      {l:"Grinning at the strangeness of it", tag:"tone-playful", s:["playful","comedy","absurdist fiction"], set:{tone:"playful"}},
+      {l:"Looking over my shoulder", tag:"tone-unsettling", s:["unsettling","the uncanny","the gothic"], set:{tone:"unsettling"}} ]},
+  { q:"Pick the light you want to read by:", opts:[
+      {l:"A single bare bulb", tag:"tone-bleak", s:["tragedy","bleak","existentialism"], set:{tone:"bleak"}},
+      {l:"Low lamp and a blanket", tag:"tone-warm", s:["hopeful","humane","tender"], set:{tone:"warm"}},
+      {l:"Fairground neon", tag:"tone-playful", s:["playful","comedy","absurdist fiction"], set:{tone:"playful"}},
+      {l:"A candle guttering", tag:"tone-unsettling", s:["unsettling","the uncanny","the gothic"], set:{tone:"unsettling"}} ]},
+];
+const ANCHOR_OBSESSION = [
+  { q:"Name something you're quietly obsessed with." },
+  { q:"What's a rabbit hole you happily fall down?" },
+  { q:"Name a place, a craft, or a fear you keep circling." },
+];
+
+/* --- oblique pool: a fresh handful sampled per session --- */
+const OBLIQUE_POOL = [
+  { key:"doorway", q:"It is 2 a.m. and you can't sleep. Which doorway do you walk toward?", opts:[
+      {l:"A library that is very quietly on fire", tag:"burning-library", s:["philosophy","essays","aphorisms","memory"]},
+      {l:"A cave with a cold draft from deeper in", tag:"cave", s:["exploration","caves","geology","the unknown"], adv:.15},
+      {l:"A lit window across a dark courtyard", tag:"window", s:["domestic fiction","loneliness","cities"]},
+      {l:"A door in a tree that wasn't there yesterday", tag:"tree-door", s:["fantasy","folklore","fairy tales","the uncanny"], adv:.2} ]},
+  { key:"texture", q:"Pick a texture you'd want the prose to feel like:", opts:[
       {l:"Gravel underfoot", tag:"gravel", s:["realism","working class","rural life"]},
       {l:"Static on an old radio", tag:"static", s:["experimental fiction","surrealism"], adv:.2},
       {l:"Cold glass", tag:"glass", s:["modernism","architecture","precision"]},
-      {l:"Moss on stone", tag:"moss", s:["nature writing","ecology","landscape"]},
-    ]},
-  { key:"trust", q:"Which do you trust more?",
-    opts:[
+      {l:"Moss on stone", tag:"moss", s:["nature writing","ecology","landscape"]} ]},
+  { key:"trust", q:"Which do you trust more?", opts:[
       {l:"A map", tag:"map", s:["science","systems","mathematics","history"]},
       {l:"A rumor", tag:"rumor", s:["folklore","secret history","occult"], lean:-.2, adv:.15},
       {l:"A scar", tag:"scar", s:["memoir","trauma","war"]},
-      {l:"A joke", tag:"joke", s:["satire","comedy","absurdist fiction"], adv:.1},
-    ]},
-  { key:"era", q:"A book arrives from where in time? (a lean, not a filter)",
-    opts:[
+      {l:"A joke", tag:"joke", s:["satire","comedy","absurdist fiction"], adv:.1} ]},
+  { key:"hunger", q:"You have one evening. Would you rather…", opts:[
+      {l:"Understand one small thing completely", tag:"deep", s:["monograph","natural history","craft","obsession"]},
+      {l:"Glimpse a thousand things at speed", tag:"broad", s:["encyclopedic fiction","essays","miscellany"], adv:.15} ]},
+  { key:"company", q:"Which narrator would you follow into a bad neighborhood?", opts:[
+      {l:"The unreliable one", tag:"unreliable", s:["unreliable narrator","psychological fiction","noir"]},
+      {l:"The one who has clearly given up", tag:"given-up", s:["existentialism","melancholy","outsider"]},
+      {l:"The one who won't stop noticing details", tag:"noticer", s:["observation","phenomenology","the everyday"]},
+      {l:"The one who might be a ghost", tag:"ghost", s:["ghost stories","haunting","the gothic","memory"], adv:.1} ]},
+  { key:"era", q:"A book arrives from where in time? (a lean, not a filter)", opts:[
       {l:"From before anyone you know was born", tag:"ancient", s:["classics","antiquity"], era:-.5},
       {l:"The strange middle decades nobody remembers", tag:"mid-century", s:["mid-century","modernism"], era:-.2, lean:-.2},
       {l:"Still warm from the present", tag:"present", s:["contemporary"], era:.45},
-      {l:"Doesn't matter — surprise me across time", tag:"any-era", s:[]},
-    ]},
-  { key:"familiarity", q:"How do you feel about a book everyone already knows?",
-    opts:[
+      {l:"Doesn't matter — surprise me across time", tag:"any-era", s:[]} ]},
+  { key:"familiarity", q:"How do you feel about a book everyone already knows?", opts:[
       {l:"Steer me off the beaten path", tag:"fam-low", s:[], lean:-.5},
       {l:"I don't mind either way", tag:"fam-neutral", s:[]},
-      {l:"I'd happily read a beloved favourite", tag:"fam-high", s:[], lean:.5},
-    ]},
-  { key:"obsession", q:"Name something you're quietly obsessed with.",
-    free:true, placeholder:"a place, a craft, an idea, a fear…",
-    hint:"A word or two. Comma-separated is welcome. Or leave it blank." },
+      {l:"I'd happily read a beloved favourite", tag:"fam-high", s:[], lean:.5} ]},
+  { key:"room", q:"You inherit an old house. Which room do you live in?", opts:[
+      {l:"The attic, with its boxes", tag:"attic", s:["memory","the past","family secrets","the gothic"]},
+      {l:"The warm, cluttered kitchen", tag:"kitchen", s:["food writing","domestic fiction","the everyday","comfort"]},
+      {l:"The book-lined study", tag:"study", s:["essays","philosophy","ideas","bibliomania"]},
+      {l:"The cellar, and its cold", tag:"cellar", s:["dread","the uncanny","horror","the buried"], adv:.15} ]},
+  { key:"weather", q:"Pick the weather to read inside of:", opts:[
+      {l:"Thick fog", tag:"fog", s:["mystery","surrealism","the uncanny","atmosphere"], adv:.1},
+      {l:"A heatwave that won't break", tag:"heat", s:["desire","the body","decadence","languor"]},
+      {l:"The first snow", tag:"snow", s:["solitude","winter","stillness","clarity"]},
+      {l:"A thunderstorm", tag:"storm", s:["romanticism","the sublime","intensity","the gothic"]} ]},
+  { key:"object", q:"A stranger leaves you a single object. What is it?", opts:[
+      {l:"A key with no lock", tag:"key", s:["mystery","the unknown","quest","secrets"], adv:.1},
+      {l:"A photo of people you don't know", tag:"photo", s:["memory","history","loss","the past"]},
+      {l:"A pressed flower", tag:"flower", s:["nature writing","love","time","fragility"]},
+      {l:"A worn pocketknife", tag:"knife", s:["noir","survival","threat","crime"]} ]},
+  { key:"sentence", q:"Which opening would make you keep reading?", opts:[
+      {l:"“It rained the day they buried the machine.”", tag:"sent-machine", s:["science fiction","elegiac","the uncanny"], adv:.1},
+      {l:"“My mother said the house had always hated us.”", tag:"sent-house", s:["the gothic","family","dread"]},
+      {l:"“By noon the border had moved again.”", tag:"sent-border", s:["magical realism","war","borders"]},
+      {l:"“He counted the stairs as if they might betray him.”", tag:"sent-stairs", s:["psychological fiction","obsession","unease"]} ]},
+  { key:"ending", q:"How should a book end?", opts:[
+      {l:"With a door closing quietly", tag:"end-quiet", s:["melancholy","realism","restraint"]},
+      {l:"With everything on fire", tag:"end-fire", s:["catastrophe","apocalypse","drama"], adv:.1},
+      {l:"With a question you can't shake", tag:"end-question", s:["ambiguity","philosophical fiction","open endings"]},
+      {l:"Where it began, but changed", tag:"end-circle", s:["myth","circular structure","fable"]} ]},
+  { key:"companion", q:"Choose a companion for a long train journey:", opts:[
+      {l:"A historian who won't stop talking", tag:"historian", s:["history","narrative nonfiction","ideas"]},
+      {l:"A poet who barely speaks", tag:"poet", s:["poetry","imagism","silence","lyric"]},
+      {l:"A charming con artist", tag:"con", s:["picaresque","crime","wit","trickster"]},
+      {l:"A child asking 'why' at everything", tag:"child", s:["wonder","science","fables","philosophy"]} ]},
+  { key:"trouble", q:"What kind of trouble are you drawn to?", opts:[
+      {l:"Quiet, domestic, corrosive", tag:"domestic-trouble", s:["domestic fiction","marriage","quiet desperation"]},
+      {l:"Historical, vast, sweeping", tag:"epic-trouble", s:["historical fiction","epic","empire","war"]},
+      {l:"Interior, psychological, slippery", tag:"psych-trouble", s:["psychological fiction","madness","unreliable narrator"]},
+      {l:"Cosmic, strange, unknowable", tag:"cosmic-trouble", s:["weird fiction","science fiction","the sublime"], adv:.15} ]},
+  { key:"color", q:"One color for the whole book:", opts:[
+      {l:"Rust", tag:"rust", s:["post-industrial","decay","ruin","the working world"]},
+      {l:"Ultramarine", tag:"blue", s:["the sea","longing","distance","the sacred"]},
+      {l:"Bone-white", tag:"white", s:["austerity","the desert","minimalism","death"]},
+      {l:"Gold-leaf", tag:"gold", s:["myth","the medieval","opulence","fable"]} ]},
+  { key:"fear", q:"Which do you find more frightening?", opts:[
+      {l:"Being forgotten", tag:"forgotten", s:["memory","legacy","mortality"]},
+      {l:"Being watched", tag:"watched", s:["surveillance","paranoia","dystopia"]},
+      {l:"Being wrong about everything", tag:"wrong", s:["epistemology","delusion","philosophy"]},
+      {l:"Being ordinary", tag:"ordinary", s:["ambition","art","the striving self"]} ]},
+  { key:"see", q:"The book should teach you to see…", opts:[
+      {l:"A landscape you drive past", tag:"see-landscape", s:["nature writing","ecology","sense of place"]},
+      {l:"A person you'd overlook", tag:"see-person", s:["character study","social realism","empathy"]},
+      {l:"A system you live inside", tag:"see-system", s:["systems","economics","sociology","ideas"]},
+      {l:"A feeling you can't name", tag:"see-feeling", s:["phenomenology","lyric","psychological fiction"]} ]},
+  { key:"instrument", q:"Pick an instrument for the soundtrack:", opts:[
+      {l:"A solo cello", tag:"cello", s:["grief","intimacy","melancholy"]},
+      {l:"A detuned piano", tag:"piano", s:["the uncanny","memory","decay"], adv:.1},
+      {l:"A field recording of a city", tag:"field", s:["documentary","urban life","realism"]},
+      {l:"A drum, far off", tag:"drum", s:["myth","ritual","dread"]} ]},
 ];
 
-/* combinations → emergent, specific threads (weighted above single answers) */
+/* combinations → emergent, specific threads (weighted above single answers).
+   Many are anchored on the always-present doorway/tone axes so synthesis stays
+   lively even though the oblique questions rotate. */
 const COMBOS = [
   { when:["static","rumor"], label:"paranoid, fragmentary, conspiratorial", s:["conspiracy","experimental fiction","secret history"], adv:.1 },
   { when:["map","static"], label:"order dissolving into noise", s:["entropy","systems","experimental fiction"] },
@@ -388,7 +478,39 @@ const COMBOS = [
   { when:["tree-door","tone-unsettling"], label:"folk horror in the old woods", s:["folk horror","the uncanny","folklore"] },
   { when:["gravel","scar"], label:"hard-bitten witness realism", s:["realism","war","working class","testimony"] },
   { when:["cave","door-story"], label:"a descent with a pulse", s:["adventure","the unknown","suspense"] },
+  { when:["cellar","tone-unsettling"], label:"domestic horror from below", s:["gothic","the uncanny","dread","domestic fiction"] },
+  { when:["given-up","tone-bleak"], label:"the clear-eyed abyss", s:["existentialism","melancholy","despair"] },
+  { when:["kitchen","tone-warm"], label:"the consolations of the ordinary", s:["domestic fiction","food writing","tenderness","the everyday"] },
+  { when:["con","tone-playful"], label:"the comic picaresque", s:["picaresque","satire","comedy","trickster"] },
+  { when:["poet","door-language"], label:"the primacy of the sentence", s:["poetry","prose style","lyric","modernism"] },
+  { when:["fog","door-setting"], label:"atmosphere as protagonist", s:["atmosphere","setting","mystery","the uncanny"] },
+  { when:["see-person","door-character"], label:"the luminous overlooked life", s:["character study","social realism","empathy"] },
+  { when:["key","door-story"], label:"the propulsive mystery", s:["mystery","suspense","detective fiction","plot"] },
+  { when:["snow","door-setting"], label:"the far cold north", s:["landscape","ice","solitude","exploration"] },
+  { when:["rust","see-system"], label:"the ruins of the machine age", s:["post-industrial","systems","decay"] },
+  { when:["attic","photo"], label:"the archive of the lost", s:["memory","photography","loss","the past"] },
+  { when:["historian","epic-trouble"], label:"the grand sweep of history", s:["historical fiction","epic","empire","war"] },
+  { when:["forgotten","cello"], label:"an elegy for what fades", s:["memory","grief","mortality","elegy"] },
+  { when:["cave","drum"], label:"a descent into ritual", s:["ritual","myth","the unknown","anthropology"] },
 ];
+
+/* --- session assembly: sample fresh oblique questions, rotate anchor wording --- */
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function sample(arr,k){ return shuffle(arr.slice()).slice(0,k); }
+function pickVariant(v){ return v[Math.floor(Math.random()*v.length)]; }
+function buildSession(){
+  let last=[]; try{ last=JSON.parse(localStorage.getItem("ds_last")||"[]"); }catch(e){}
+  let avail=OBLIQUE_POOL.filter(q=>!last.includes(q.key));
+  if(avail.length<OBLIQUE_PER_SESSION) avail=OBLIQUE_POOL.slice();  // pool exhausted → reset
+  const oblique=sample(avail,OBLIQUE_PER_SESSION);
+  try{ localStorage.setItem("ds_last", JSON.stringify(oblique.map(q=>q.key))); }catch(e){}
+  const doorway=Object.assign({key:"doorway_appeal"}, pickVariant(ANCHOR_DOORWAY));
+  const tone=Object.assign({key:"tone"}, pickVariant(ANCHOR_TONE));
+  const obsession=Object.assign({key:"obsession", free:true,
+    placeholder:"a place, a craft, an idea, a fear…",
+    hint:"A word or two. Comma-separated is welcome. Or leave it blank."}, pickVariant(ANCHOR_OBSESSION));
+  return [doorway, ...oblique, tone, obsession];
+}
 
 /* ============================ scoring (faithful JS port) ============================ */
 function logNorm(c, ceil){ return c<=0?0:Math.min(1, Math.log1p(c)/Math.log1p(ceil)); }
@@ -442,17 +564,17 @@ function rankCandidates(cands, prof, limit){
 function recommend(prof, limit){ return rankCandidates(CORPUS, prof, limit); }
 
 /* ============================ state + flow ============================ */
-const S = { i:0, answers:{}, tags:[], profile:null };
+const S = { i:0, answers:{}, tags:[], profile:null, questions:[] };
 const $ = s=>document.querySelector(s);
 function show(id){ document.querySelectorAll(".view").forEach(v=>v.classList.remove("on")); $(id).classList.add("on"); window.scrollTo({top:0,behavior:"instant"}); }
 const ROMAN=["I","II","III","IV","V","VI","VII","VIII","IX","X"];
 
 function renderProgress(){
   const p=$("#progress"); p.innerHTML="";
-  QUESTIONS.forEach((_,k)=>{ const d=document.createElement("span"); d.className="pip"+(k<S.i?" done":k===S.i?" here":""); p.appendChild(d); });
+  S.questions.forEach((_,k)=>{ const d=document.createElement("span"); d.className="pip"+(k<S.i?" done":k===S.i?" here":""); p.appendChild(d); });
 }
 function renderQuestion(){
-  const Q=QUESTIONS[S.i];
+  const Q=S.questions[S.i];
   $("#catNo").textContent="CARD "+ROMAN[S.i];
   renderProgress();
   $("#qText").textContent=Q.q;
@@ -481,18 +603,18 @@ function renderQuestion(){
     });
   }
   $("#backBtn").style.visibility = S.i===0 ? "hidden":"visible";
-  $("#nextBtn").textContent = S.i===QUESTIONS.length-1 ? "Read my shelf" : "Continue";
+  $("#nextBtn").textContent = S.i===S.questions.length-1 ? "Read my shelf" : "Continue";
   updateNext();
 }
 function updateNext(){
-  const Q=QUESTIONS[S.i];
+  const Q=S.questions[S.i];
   const ok = Q.free ? true : (S.answers[Q.key]!=null);
   $("#nextBtn").disabled = !ok;
 }
 function advance(){
-  const Q=QUESTIONS[S.i];
+  const Q=S.questions[S.i];
   if(Q.free){ const v=$("#freeInput")?.value?.trim()||""; if(v) S.answers[Q.key]={text:v}; }
-  if(S.i<QUESTIONS.length-1){ S.i++; renderQuestion(); }
+  if(S.i<S.questions.length-1){ S.i++; renderQuestion(); }
   else { buildProfile(); showSynthesis(); }
 }
 function back(){ if(S.i>0){ S.i--; renderQuestion(); } }
@@ -502,7 +624,7 @@ function buildProfile(){
   const prof={subjects:{}, keywords:[], lean:0, era:0, adv:.4, doorway:"", tone:"", emergent:[], moods:[], languages:["eng"]};
   const tags=[];
   function addS(s,w){ s=s.toLowerCase(); prof.subjects[s]=(prof.subjects[s]||0)+w; }
-  for(const Q of QUESTIONS){
+  for(const Q of S.questions){
     const a=S.answers[Q.key]; if(!a) continue;
     if(Q.free){
       (a.text||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(p=>{ addS(p,.8); prof.keywords.push(p); prof.moods.push(p); });
@@ -537,7 +659,7 @@ function showSynthesis(){
 }
 
 /* ============================ results ============================ */
-function annas(b){ return "https://annas-archive.org/search?q="+encodeURIComponent((b.t+" "+b.a).trim()); }
+function annas(b){ return "https://annas-archive.org/search?q="+encodeURIComponent((b.t||"").trim()); }
 function openlib(b){ return "https://openlibrary.org/search?q="+encodeURIComponent((b.t+" "+b.a).trim()); }
 function famWord(p){ return p<.2?"little-known":p<.45?"seldom-shelved":p<.7?"known":"widely read"; }
 function eraWord(b){ return b.y?String(b.y):"undated"; }
@@ -557,7 +679,8 @@ function reasons(x){
 /* ---- data layer: backend (if served) → direct Open Library → curated corpus ---- */
 let MODE="corpus";      // "backend" | "client" | "corpus"
 let BACKEND=false;
-async function detectBackend(){ try{ const r=await fetch("api/health",{cache:"no-store"}); BACKEND=r.ok; }catch(e){ BACKEND=false; } }
+const CAN_FETCH = location.protocol==="http:" || location.protocol==="https:";  // no network on file://
+async function detectBackend(){ if(!CAN_FETCH){ BACKEND=false; return; } try{ const r=await fetch("api/health",{cache:"no-store"}); BACKEND=r.ok; }catch(e){ BACKEND=false; } }
 
 const OL_FIELDS="key,title,author_name,first_publish_year,edition_count,ratings_count,ratings_average,readinglog_count,language,subject,ia,public_scan_b";
 const JUNK_EXACT=new Set(["fiction","general","literature","reading","large print books","fiction, general","textbooks","history and criticism"]);
@@ -572,6 +695,7 @@ async function olSearch(q, limit){
   catch(e){ clearTimeout(t); return null; }
 }
 async function gatherClientLive(prof, limit){
+  if(!CAN_FETCH) return null;   // offline / file:// → fall back to the curated corpus
   const tops=topSubjects(prof,5), kws=(prof.keywords||[]).slice(0,3);
   const queries=tops.map(s=>['subject:"'+s+'"',30]).concat(kws.map(k=>[k,20]));
   const results=await Promise.all(queries.map(([q,l])=>olSearch(q,l)));
@@ -687,14 +811,14 @@ function initTheme(){
 }
 
 /* ============================ wire up ============================ */
-$("#beginBtn").addEventListener("click",()=>{ show("#v-interview"); renderQuestion(); });
+$("#beginBtn").addEventListener("click",()=>{ S.i=0; S.answers={}; S.questions=buildSession(); show("#v-interview"); renderQuestion(); });
 $("#nextBtn").addEventListener("click",advance);
 $("#backBtn").addEventListener("click",back);
 $("#toResults").addEventListener("click",()=>{ show("#v-results"); syncControls(); render(); });
-$("#restartBtn").addEventListener("click",()=>{ S.i=0; S.answers={}; S.tags=[]; S.profile=null; show("#v-intro"); });
+$("#restartBtn").addEventListener("click",()=>{ S.i=0; S.answers={}; S.tags=[]; S.profile=null; S.questions=[]; show("#v-intro"); });
 document.addEventListener("keydown",e=>{
   if($("#v-interview").classList.contains("on")){
-    const Q=QUESTIONS[S.i];
+    const Q=S.questions[S.i];
     if(!Q.free && /^[1-9]$/.test(e.key)){ const idx=+e.key-1; const opts=$("#qBody").querySelectorAll(".opt"); if(opts[idx]) opts[idx].click(); }
     if(e.key==="Enter" && !$("#nextBtn").disabled) advance();
   }
