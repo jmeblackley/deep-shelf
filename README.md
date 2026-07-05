@@ -1,5 +1,8 @@
 # Deepshelf
 
+**▶ Try it live: https://jmeblackley.github.io/deep-shelf/** — no install, works on
+your phone, queries Open Library directly from the browser.
+
 **Book recommendations from the deep shelves.** A command-line recommender that
 draws on open catalogues (Open Library / the Internet Archive) plus a
 hand-curated corpus of deep cuts, *considers* popularity and recency as signals
