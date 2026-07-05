@@ -69,10 +69,19 @@ def _excluded(book: Book, profile: TasteProfile) -> bool:
     return any(nt == _norm_title(x) for x in profile.exclude)
 
 
-def _language_ok(book: Book, profile: TasteProfile) -> bool:
-    if not profile.languages or not book.languages:
-        return True
-    return any(lang in book.languages for lang in profile.languages)
+def _has_footprint(book: Book) -> bool:
+    """A light 'known-enough' test: the book has *some* trace in the world —
+    more than one edition, a rating, a scan, or a curator's vouch.  Filters out
+    phantom single-record catalogue entries without touching genuine deep cuts
+    (which almost always clear at least one of these)."""
+    return (
+        book.curated
+        or book.edition_count >= 2
+        or book.ratings_count >= 1
+        or book.readinglog_count >= 1
+        or book.public_scan
+        or bool(book.ia_ids)
+    )
 
 
 #: A candidate must clear this thematic-match floor to be recommendable, so a
@@ -95,6 +104,15 @@ def _apply_relevance_floor(ranked: List[Scored], profile, limit: int) -> List[Sc
     # shelf; otherwise fall back to the full ranking rather than return nothing.
     if len(relevant) >= max(limit, 5):
         return relevant
+    return ranked
+
+
+def _apply_known_floor(ranked: List[Scored], limit: int) -> List[Scored]:
+    """Drop zero-footprint phantom records, with a fallback so a thin pool is
+    never emptied."""
+    known = [s for s in ranked if _has_footprint(s.book)]
+    if len(known) >= max(limit, 5):
+        return known
     return ranked
 
 
@@ -125,11 +143,10 @@ def recommend(
 ) -> List[Scored]:
     client = client or OpenLibraryClient()
     candidates = [
-        b
-        for b in gather_candidates(profile, client)
-        if not _excluded(b, profile) and _language_ok(b, profile)
+        b for b in gather_candidates(profile, client) if not _excluded(b, profile)
     ]
     ranked = _apply_relevance_floor(rank(candidates, profile), profile, limit)
+    ranked = _apply_known_floor(ranked, limit)
 
     if not diversify:
         out = ranked[:limit]

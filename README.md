@@ -132,7 +132,8 @@ results. Combine `--history` with interview answers to sharpen the signal.
 | `--era old\|new\|any` | tilt the ranking in time (default: any) |
 | `--adventurous 0..1` | appetite for relevant-but-unexpected picks |
 | `--exclude "TITLE"` | a book you've already read (repeatable) |
-| `--lang eng` | preferred language code (repeatable) |
+| `--lang eng` | preferred language (repeatable). Defaults to a soft English lean — other languages are demoted, not excluded |
+| `--any-language` | drop the default English lean; weigh all languages equally |
 | `-n, --limit` | how many picks |
 | `--history FILE` | build the profile from books you've read + ratings |
 | `--refine` | keep steering after the picks (critiquing loop) |

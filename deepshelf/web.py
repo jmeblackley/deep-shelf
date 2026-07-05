@@ -33,6 +33,12 @@ def _profile_from_payload(data: dict) -> TasteProfile:
     p.adventurousness = _clampf(data.get("adv", 0.4), 0, 1)
     p.doorway = str(data.get("doorway", ""))
     p.tone = str(data.get("tone", ""))
+    # Default to an English lean unless the client opts out or names languages.
+    langs = data.get("languages")
+    if langs:
+        p.languages = [str(l) for l in langs]
+    elif not data.get("all_languages"):
+        p.languages = ["eng"]
     return p
 
 

@@ -90,7 +90,12 @@ def build_parser() -> argparse.ArgumentParser:
     dials.add_argument("--exclude", action="append", default=[], metavar="TITLE",
                        help="a title you've already read (repeatable)")
     dials.add_argument("--lang", action="append", default=[], metavar="ISO",
-                       help="preferred language code, e.g. eng (repeatable)")
+                       help="preferred language code (repeatable). Defaults to "
+                            "eng; a lean, not a filter — other languages are "
+                            "demoted, not excluded")
+    dials.add_argument("--any-language", action="store_true",
+                       help="drop the default English lean; weigh all languages "
+                            "equally")
 
     out = p.add_argument_group("output & data")
     out.add_argument("-n", "--limit", type=int, default=8, help="how many picks")
@@ -166,7 +171,11 @@ def _apply_dials(profile: TasteProfile, args) -> None:
         profile.era_bias = _ERA_MAP[args.era]
     for title in args.exclude:
         profile.exclude.add(title)
-    profile.languages.extend(args.lang)
+    # Default to an English lean unless the reader opts out or names languages.
+    if args.lang:
+        profile.languages.extend(args.lang)
+    elif not args.any_language:
+        profile.languages.append("eng")
 
 
 def main(argv=None) -> int:

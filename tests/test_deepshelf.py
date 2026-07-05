@@ -418,6 +418,51 @@ def test_avoidance_penalises_disliked_themes():
     assert s_on.score > s_dis.score
 
 
+def test_language_lean_demotes_but_does_not_exclude():
+    profile = TasteProfile(adventurousness=0.0)
+    profile.add_subject("secret history")
+    profile.languages = ["eng"]
+    eng = _book("English Work", subjects=["secret history"], languages=["eng"],
+                found_via=["subject:secret history"])
+    ger = _book("German Work", subjects=["secret history"], languages=["ger"],
+                found_via=["subject:secret history"])
+    ranked = scoring.rank([ger, eng], profile)
+    assert ranked[0].book.title == "English Work"      # English preferred
+    assert any(s.book.title == "German Work" for s in ranked)  # not excluded
+
+
+def test_language_unknown_not_penalised():
+    profile = TasteProfile()
+    profile.languages = ["eng"]
+    unknown = _book("No Lang Data", subjects=["x"])  # languages == []
+    assert scoring.language_mismatch(unknown, profile) == 0.0
+
+
+def test_known_floor_drops_phantom_records():
+    profile = TasteProfile()
+    profile.add_subject("systems")
+
+    class C:
+        def search_subject(self, subject, limit=40):
+            if "system" not in subject:
+                return []
+            phantom = Book(key="/works/P", title="Phantom Record",
+                           subjects=["systems"], edition_count=1, ratings_count=0,
+                           readinglog_count=0, found_via=["subject:systems"])
+            real = Book(key="/works/R", title="Real Book", subjects=["systems"],
+                        edition_count=6, ratings_count=20, ratings_average=4.0,
+                        readinglog_count=20, found_via=["subject:systems"])
+            return [phantom, real]
+
+        def search_keyword(self, phrase, limit=25):
+            return []
+
+    results = recommend(profile, client=C(), limit=20)
+    titles = [r.book.title for r in results]
+    assert "Phantom Record" not in titles
+    assert "Real Book" in titles
+
+
 def test_annas_archive_url_is_a_search_link():
     b = Book(key="/works/X", title="The Peregrine", authors=["J. A. Baker"])
     url = b.annas_archive_url

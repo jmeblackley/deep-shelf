@@ -135,6 +135,18 @@ def unexpectedness(book: Book, profile: TasteProfile) -> float:
     return 0.0 if hits_obvious else 1.0
 
 
+def language_mismatch(book: Book, profile: TasteProfile) -> float:
+    """1.0 when the book is in none of the reader's preferred languages, else 0.
+
+    Books with no language metadata are treated as a match (0) — we don't guess.
+    Applied as a lean, not a wall: a strongly-relevant work in another language
+    can still surface, it just starts a step behind.
+    """
+    if not profile.languages or not book.languages:
+        return 0.0
+    return 0.0 if any(l in book.languages for l in profile.languages) else 1.0
+
+
 def avoidance(book: Book, profile: TasteProfile) -> float:
     """0..1 — how strongly a book leans on themes the reader has personally
     rated poorly.  Learned from the reader's own history, so unlike a popularity
@@ -190,6 +202,8 @@ def score_book(book: Book, profile: TasteProfile) -> Scored:
 
     # A gentle, personal penalty for themes the reader has rated poorly.
     avoid_term = -0.5 * avoidance(book, profile)
+    # A lean toward the reader's language(s): demote, don't exclude.
+    lang_term = -0.55 * language_mismatch(book, profile)
 
     score = (
         1.2 * match
@@ -199,6 +213,7 @@ def score_book(book: Book, profile: TasteProfile) -> Scored:
         + rec_term
         + serendipity
         + avoid_term
+        + lang_term
         + jitter
     )
 
