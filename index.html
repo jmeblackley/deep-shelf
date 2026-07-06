@@ -513,10 +513,17 @@ function buildSession(){
 }
 
 /* ============================ scoring (faithful JS port) ============================ */
+const NOW_YEAR=2026, POP_REF_YEARS=12, RECENCY_FLOOR=1900;
+const Q_PRIOR_MEAN=0.7, Q_PRIOR_STRENGTH=8;
 function logNorm(c, ceil){ return c<=0?0:Math.min(1, Math.log1p(c)/Math.log1p(ceil)); }
-function popularity(b){ return .4*logNorm(b.ed,120)+.3*logNorm(b.rc,3000)+.3*logNorm((b.rl!=null?b.rl:b.rc),8000); }
-function recency(b){ if(!b.y) return .3; const y=Math.max(1500,Math.min(2026,b.y)); return (y-1500)/526; }
-function quality(b){ return (b.ra==null||b.rc<8)?null:Math.max(0,Math.min(1,b.ra/5)); }
+// Age-normalised popularity: discount accrued counts by how long the book has
+// had to gather them, so age alone doesn't read as "popular".
+function availFactor(y){ if(!y) return 1; return Math.max(1,(NOW_YEAR-Math.min(NOW_YEAR,y))/POP_REF_YEARS); }
+function popularity(b){ const f=availFactor(b.y); return .4*logNorm(b.ed/f,120)+.3*logNorm(b.rc/f,3000)+.3*logNorm((b.rl!=null?b.rl:0)/f,8000); }
+// Recency across 1900..now so the last century spreads out; undated = neutral 0.5.
+function recency(b){ if(!b.y) return .5; const y=Math.max(RECENCY_FLOOR,Math.min(NOW_YEAR,b.y)); return (y-RECENCY_FLOOR)/(NOW_YEAR-RECENCY_FLOOR); }
+// Quality by Bayesian shrinkage toward a neutral prior — no age-biased ratings gate.
+function quality(b){ const n=Math.max(0,b.rc||0); const obs=(b.ra!=null)?Math.max(0,Math.min(1,b.ra/5)):Q_PRIOR_MEAN; return (Q_PRIOR_STRENGTH*Q_PRIOR_MEAN+n*obs)/(Q_PRIOR_STRENGTH+n); }
 function langMiss(b, prof){ if(!prof.languages||!prof.languages.length||!b.langs||!b.langs.length) return 0; return prof.languages.some(l=>b.langs.includes(l))?0:1; }
 function subjMatch(want, subs){ for(const s of subs){ if(s.includes(want)||want.includes(s)) return true; } return false; }
 function match(b, prof){
@@ -534,7 +541,7 @@ function unexpected(b, prof){
 }
 function score(b, prof){
   const m=match(b,prof), pop=popularity(b), rec=recency(b), q=quality(b), unx=unexpected(b,prof);
-  const qterm=q==null?0:.5*q*(.35+.65*m);
+  const qterm=.5*q*(.35+.65*m);
   const serend=prof.adv*Math.max(0,m)*unx;
   const s = 1.2*m + qterm + prof.lean*(pop-.5) + prof.era*(rec-.5) + serend - .55*langMiss(b,prof);
   const wild = unx>=1 && serend>=.12 && m<.5;
@@ -688,8 +695,9 @@ const JUNK_SUB=["accessible book","protected daisy","in library","large type","o
 function cleanSubjects(subs){ const out=[]; for(const s of subs){ const low=String(s).trim().toLowerCase(); if(!low||JUNK_EXACT.has(low)) continue; if(JUNK_SUB.some(f=>low.includes(f))) continue; out.push(low); } return out; }
 function mapDoc(d){ if(!d.title) return null; return {key:d.key||"", t:d.title, a:(d.author_name||[]).join(", "), y:d.first_publish_year||null, s:cleanSubjects(d.subject||[]).slice(0,40), n:null, ed:d.edition_count||0, rc:d.ratings_count||0, ra:(d.ratings_average!=null?d.ratings_average:null), rl:d.readinglog_count||0, langs:d.language||[], ia:d.ia||[], pub:!!d.public_scan_b, curated:false}; }
 function normTitle(t){ return String(t||"").toLowerCase().replace(/[^a-z0-9]+/g,""); }
-async function olSearch(q, limit){
-  const url="https://openlibrary.org/search.json?fields="+OL_FIELDS+"&limit="+limit+"&q="+encodeURIComponent(q);
+async function olSearch(q, limit, sort){
+  let url="https://openlibrary.org/search.json?fields="+OL_FIELDS+"&limit="+limit+"&q="+encodeURIComponent(q);
+  if(sort) url+="&sort="+encodeURIComponent(sort);
   const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),9000);
   try{ const r=await fetch(url,{signal:ctrl.signal}); clearTimeout(t); if(!r.ok) return []; const d=await r.json(); return (d.docs||[]).map(mapDoc).filter(Boolean); }
   catch(e){ clearTimeout(t); return null; }
@@ -697,8 +705,16 @@ async function olSearch(q, limit){
 async function gatherClientLive(prof, limit){
   if(!CAN_FETCH) return null;   // offline / file:// → fall back to the curated corpus
   const tops=topSubjects(prof,5), kws=(prof.keywords||[]).slice(0,3);
-  const queries=tops.map(s=>['subject:"'+s+'"',30]).concat(kws.map(k=>[k,20]));
-  const results=await Promise.all(queries.map(([q,l])=>olSearch(q,l)));
+  // Two passes per subject: OL's default relevance sort (the old canon) PLUS a
+  // recent, rating-sorted window, so the pool isn't only old high-edition works.
+  const RECENT_FROM=NOW_YEAR-15;
+  const queries=[];
+  for(const s of tops){
+    queries.push(['subject:"'+s+'"',30,null]);
+    queries.push(['subject:"'+s+'" AND first_publish_year:['+RECENT_FROM+' TO '+NOW_YEAR+']',30,'rating']);
+  }
+  for(const k of kws){ queries.push([k,20,null]); }
+  const results=await Promise.all(queries.map(([q,l,srt])=>olSearch(q,l,srt)));
   if(results.every(r=>r===null)) return null;   // total network/CORS failure → fall back
   const pool={};
   for(const b of CORPUS){ pool[normTitle(b.t)+"|"+normTitle(b.a)]=Object.assign({},b); }  // seed deep cuts
